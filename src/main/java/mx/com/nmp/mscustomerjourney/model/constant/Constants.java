@@ -12,11 +12,14 @@ public class Constants {
     public static String EXCHANGE;
     public static String QUEUE_EVENTOS;
     public static String QUEUE_NOTIFICACIONES;
+    public static String QUEUE_EXPERIENCIAS;
     public static String ROUTING_KEY_EVENTOS;
     public static String ROUTING_KEY_NOTIFICACIONES;
+    public static String ROUTING_KEY_EXPERIENCIAS;
 
     public static String MS_EVENTOS_URL;
     public static String MS_EVENTOS_INCIDENCIA;
+    public static String WEB_MONTE;
 
     public Constants(@Value("${spring.rabbitmq.host}") String RABBIT_HOST,
                      @Value("${spring.rabbitmq.username}") String RABBIT_USERNAME,
@@ -24,10 +27,13 @@ public class Constants {
                      @Value("${spring.rabbitmq.exchange}") String EXCHANGE,
                      @Value("${spring.rabbitmq.queue.eventos}") String QUEUE_EVENTOS,
                      @Value("${spring.rabbitmq.queue.notificaciones}") String QUEUE_NOTIFICACIONES,
+                     @Value("${spring.rabbitmq.queue.experiencias}") String QUEUE_EXPERIENCIAS,
                      @Value("${spring.rabbitmq.routingkey.eventos}") String ROUTING_KEY_EVENTOS,
                      @Value("${spring.rabbitmq.routingkey.notificaciones}") String ROUTING_KEY_NOTIFICACIONES,
+                     @Value("${spring.rabbitmq.routingkey.experiencias}") String ROUTING_KEY_EXPERIENCIAS,
                      @Value("${ms.eventos.url}") String MS_EVENTOS_URL,
-                     @Value("${ms.eventos.url.notificacion}") String MS_EVENTOS_URL_ICIDENCIA)
+                     @Value("${ms.eventos.url.notificacion}") String MS_EVENTOS_URL_ICIDENCIA,
+                     @Value("${web.monte}") String WEB_MONTE)
 
     {
 
@@ -37,11 +43,14 @@ public class Constants {
         Constants.EXCHANGE = EXCHANGE;
         Constants.QUEUE_EVENTOS = QUEUE_EVENTOS;
         Constants.QUEUE_NOTIFICACIONES = QUEUE_NOTIFICACIONES;
+        Constants.QUEUE_EXPERIENCIAS = QUEUE_EXPERIENCIAS;
         Constants.ROUTING_KEY_EVENTOS = ROUTING_KEY_EVENTOS;
         Constants.ROUTING_KEY_NOTIFICACIONES = ROUTING_KEY_NOTIFICACIONES;
+        Constants.ROUTING_KEY_EXPERIENCIAS = ROUTING_KEY_EXPERIENCIAS;
 
         Constants.MS_EVENTOS_URL = MS_EVENTOS_URL;
         Constants.MS_EVENTOS_INCIDENCIA = MS_EVENTOS_URL_ICIDENCIA;
+        Constants.WEB_MONTE = WEB_MONTE;
 
     }
 

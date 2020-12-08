@@ -23,6 +23,11 @@ public class RabbitConfig {
     }
 
     @Bean
+    Queue queueExperiencia() {
+        return new Queue(Constants.QUEUE_EXPERIENCIAS, false);
+    }
+
+    @Bean
     DirectExchange exchange() {
         return new DirectExchange(Constants.EXCHANGE);
     }
@@ -35,6 +40,11 @@ public class RabbitConfig {
     @Bean
     Binding bindingNotificacion() {
         return BindingBuilder.bind(queueNotificacion()).to(exchange()).with(Constants.ROUTING_KEY_NOTIFICACIONES);
+    }
+
+    @Bean
+    Binding bindingExperiencia(){
+        return BindingBuilder.bind(queueExperiencia()).to(exchange()).with(Constants.ROUTING_KEY_EXPERIENCIAS);
     }
 
     @Bean

@@ -20,6 +20,8 @@ public class RabbitSender {
         String msj = gson.toJson(log);
         Message message = MessageBuilder.withBody(msj.getBytes()).build();
         rabbitTemplate.convertAndSend(Constants.EXCHANGE,Constants.ROUTING_KEY_EVENTOS,message);
+        rabbitTemplate.convertAndSend(Constants.EXCHANGE,Constants.ROUTING_KEY_EXPERIENCIAS,message);
+        rabbitTemplate.convertAndSend(Constants.EXCHANGE,Constants.ROUTING_KEY_NOTIFICACIONES,message);
        /* Connection connectionRabbit = RabbitMQConfig.getInstance(urlRabbit).newConnection();
         try{
             Channel channel =  connectionRabbit.createChannel();

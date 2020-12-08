@@ -10,6 +10,7 @@ public class CustomerjourneyApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CustomerjourneyApplication.class, args);
+
 	}
 
 }
