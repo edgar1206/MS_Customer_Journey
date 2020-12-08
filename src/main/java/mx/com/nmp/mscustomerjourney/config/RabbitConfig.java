@@ -13,18 +13,28 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitConfig {
 
     @Bean
-    Queue queue() {
-        return new Queue(Constants.getQUEUE(), false);
+    Queue queueEvento() {
+        return new Queue(Constants.QUEUE_EVENTOS, false);
+    }
+
+    @Bean
+    Queue queueNotificacion() {
+        return new Queue(Constants.QUEUE_NOTIFICACIONES, false);
     }
 
     @Bean
     DirectExchange exchange() {
-        return new DirectExchange(Constants.getEXCHANGE());
+        return new DirectExchange(Constants.EXCHANGE);
     }
 
     @Bean
-    Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(Constants.getROUTING());
+    Binding bindingEvento() {
+        return BindingBuilder.bind(queueEvento()).to(exchange()).with(Constants.ROUTING_KEY_EVENTOS);
+    }
+
+    @Bean
+    Binding bindingNotificacion() {
+        return BindingBuilder.bind(queueNotificacion()).to(exchange()).with(Constants.ROUTING_KEY_NOTIFICACIONES);
     }
 
     @Bean

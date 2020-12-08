@@ -1,6 +1,6 @@
 package mx.com.nmp.mscustomerjourney.controller;
 
-import mx.com.nmp.mscustomerjourney.model.LogsDTO;
+import mx.com.nmp.mscustomerjourney.model.log.LogsDTO;
 import mx.com.nmp.mscustomerjourney.service.RabbitSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ public class ControllerRabbit {
 
     @PostMapping("/sendLog")
     public ResponseEntity<?> sendLog(@RequestBody LogsDTO log){
-        rabbitSender.sendLog(log);
+        rabbitSender.enviaLog(log);
         return ResponseEntity.ok().build();
     }
 

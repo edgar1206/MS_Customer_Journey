@@ -1,4 +1,4 @@
-package mx.com.nmp.mscustomerjourney.model;
+package mx.com.nmp.mscustomerjourney.model.log;
 
 public class Location {
 
