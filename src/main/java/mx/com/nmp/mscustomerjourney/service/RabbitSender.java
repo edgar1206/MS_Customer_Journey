@@ -9,8 +9,12 @@ import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Logger;
+
 @Service
 public class RabbitSender {
+
+    private static final Logger LOGGER = Logger.getLogger(RabbitSender.class.getName());
 
     @Autowired
     private AmqpTemplate rabbitTemplate;
@@ -20,6 +24,7 @@ public class RabbitSender {
         String msj = gson.toJson(log);
         Message message = MessageBuilder.withBody(msj.getBytes()).build();
         rabbitTemplate.convertAndSend(Constants.EXCHANGE,Constants.ROUTING_KEY_EVENTOS,message);
+        LOGGER.info("envia mensaje a rabbit");
        /* Connection connectionRabbit = RabbitMQConfig.getInstance(urlRabbit).newConnection();
         try{
             Channel channel =  connectionRabbit.createChannel();

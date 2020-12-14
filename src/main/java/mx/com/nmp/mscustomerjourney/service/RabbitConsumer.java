@@ -14,9 +14,12 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
+import java.util.logging.Logger;
 
 @Service
 public class RabbitConsumer {
+
+    private static final Logger LOGGER = Logger.getLogger(RabbitConsumer.class.getName());
 
     @Autowired
     private AmqpTemplate rabbitTemplate;
@@ -24,9 +27,12 @@ public class RabbitConsumer {
     @RabbitListener(queues = "${spring.rabbitmq.queue.eventos}")
     public void recibeLog(Message message){
 
+        LOGGER.info("desencola mensaje");
+
         procesaLog(new String(message.getBody()));
 
         guardaLog(new String(message.getBody()));
+
 
     }
 
@@ -37,6 +43,7 @@ public class RabbitConsumer {
         HttpEntity<LogsDTO> request = new HttpEntity<>(log);
         try{
             restTemplate.postForEntity(Constants.MS_EVENTOS_URL,request,LogsDTO.class);
+            LOGGER.info("envia mensaje a ms eventos");
         }catch (HttpClientErrorException e){
             e.printStackTrace();
         }
