@@ -15,8 +15,7 @@ public class LogsDTO {
     private String pid;
     @JsonProperty("message.nombreUsuario")
     private String nombreUsuario;
-    @JsonProperty("geoip")
-    private GeoIP geoIP;
+    private GeoIP geoip;
     private String categoryName;
     @JsonProperty("host.hostname")
     private String hostName;
@@ -84,12 +83,12 @@ public class LogsDTO {
         this.nombreUsuario = nombreUsuario;
     }
 
-    public GeoIP getGeoIP() {
-        return geoIP;
+    public GeoIP getGeoip() {
+        return geoip;
     }
 
-    public void setGeoIP(GeoIP geoIP) {
-        this.geoIP = geoIP;
+    public void setGeoip(GeoIP geoip) {
+        this.geoip = geoip;
     }
 
     public String getCategoryName() {

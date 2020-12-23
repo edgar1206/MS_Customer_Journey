@@ -14,9 +14,15 @@ public class ControllerRabbit {
     private RabbitSender rabbitSender;
 
     @PostMapping("/sendLog")
-    public ResponseEntity<?> sendLog(@RequestBody LogsDTO log){
+    public ResponseEntity<?> sendLog(@RequestBody String log){
         rabbitSender.enviaLog(log);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "/mensajeZip",params = "mensaje")
+    public String getZip(@RequestParam String mensaje){
+
+        return mensaje;
     }
 
 }

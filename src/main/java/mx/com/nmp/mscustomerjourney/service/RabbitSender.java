@@ -19,10 +19,8 @@ public class RabbitSender {
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
-    public void enviaLog(LogsDTO log) {
-        Gson gson = new Gson();
-        String msj = gson.toJson(log);
-        Message message = MessageBuilder.withBody(msj.getBytes()).build();
+    public void enviaLog(String log) {
+        Message message = MessageBuilder.withBody(log.getBytes()).build();
         rabbitTemplate.convertAndSend(Constants.EXCHANGE,Constants.ROUTING_KEY_EVENTOS,message);
         LOGGER.info("envia mensaje a rabbit");
        /* Connection connectionRabbit = RabbitMQConfig.getInstance(urlRabbit).newConnection();
