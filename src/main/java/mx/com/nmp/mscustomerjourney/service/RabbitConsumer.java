@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.sun.corba.se.spi.ior.ObjectId;
-import mx.com.nmp.mscustomerjourney.model.NR.LogIncidencia;
+//import com.sun.corba.se.spi.ior.ObjectId;
+import mx.com.nmp.mscustomerjourney.model.NR.Evento;
 import mx.com.nmp.mscustomerjourney.model.log.LogsDTO;
 import mx.com.nmp.mscustomerjourney.model.constant.Constants;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Date;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -48,12 +47,13 @@ public class RabbitConsumer {
         //evento.setAccion("ninguna");
         //System.out.println(gson.toJson(evento));
         try{
-            LogsDTO evento = new ObjectMapper().readValue(stringEvento, LogsDTO.class);
+            LogsDTO logsDTO = new ObjectMapper().readValue(stringEvento, LogsDTO.class);
+            Evento evento=estandarizacionLog(logsDTO);
             RestTemplate restTemplate = new RestTemplate();
             Thread.sleep(1);
             System.out.println(gson.toJson(evento));
             System.out.println("termina");
-            HttpEntity<LogsDTO> request = new HttpEntity<>(evento);
+            HttpEntity<Evento> request = new HttpEntity<>(evento);
             restTemplate.postForEntity(Constants.MS_EVENTOS_URL,request,String.class);
         }catch (HttpClientErrorException | InterruptedException e){
             LOGGER.info(e.getMessage());
@@ -67,4 +67,17 @@ public class RabbitConsumer {
         categoriza.categorizar(stringEvento);
     }
 
+    private Evento estandarizacionLog(LogsDTO logsDTO) {
+
+        Evento evento = new Evento();
+        evento.setIdEvent(UUID.randomUUID().toString());
+        evento.setEventType("Mimonte");
+        evento.setEventLevel(logsDTO.getLevel());
+        evento.setEventCategory(logsDTO.getCategoryName());
+        evento.setEventAction(logsDTO.getAccion());
+        evento.setEventDescription(logsDTO.getDescripcion());
+        evento.setEventResource(logsDTO.getRecurso());
+        evento.setTimeGenerated(logsDTO.getStartTime());
+        return evento;
+    }
 }

@@ -33,12 +33,12 @@ public class Monitoreo {
     public void startTask(){
         LOGGER.info("inicia ejecucion de monitoreo " + new Date());
         //urlList = serviciosMongo.getServicios();
-        urlList.stream().parallel().forEach(this::monitoeo);
+        urlList.stream().parallel().forEach(this::monitoreo);
         LOGGER.info("termina ejecucion de monitoreo " + new Date());
     }
 
     @Async("threadPoolTaskExecutor")
-    public void monitoeo(String url){
+    public void monitoreo(String url){
         try {
             URL siteURL = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();

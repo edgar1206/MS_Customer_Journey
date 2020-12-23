@@ -1,7 +1,7 @@
 package mx.com.nmp.mscustomerjourney.service;
 
 import com.google.gson.Gson;
-import mx.com.nmp.mscustomerjourney.model.NR.LogIncidencia;
+import mx.com.nmp.mscustomerjourney.model.NR.Evento;
 import mx.com.nmp.mscustomerjourney.model.log.LogsDTO;
 import mx.com.nmp.mscustomerjourney.modelError.TipoError1;
 import mx.com.nmp.mscustomerjourney.modelError.TipoError2;
@@ -44,16 +44,17 @@ public class Categoriza {
         }
     }
 
-    private void generaIncidencia(LogsDTO evento){
-        LogIncidencia notificacion = new LogIncidencia();
-        notificacion.setIdEvento(UUID.randomUUID().toString());
-        notificacion.setError(evento.getAccion());
-        notificacion.setErrorDescripcion(evento.getDescripcion());
-        notificacion.setHoraOcurrencia(evento.getStartTime());
-        notificacion.setSeveridad("");
-        notificacion.setStackTrace(evento.getRecurso());
-        notificacion.setStatusCodeError("500");
-        notificacion.setTorreResolucion("");
+    private void generaIncidencia(LogsDTO evento) {
+        Evento notificacion = new Evento();
+        notificacion.setIdEvent(UUID.randomUUID().toString());
+        notificacion.setEventType("Mimonte");
+        notificacion.setEventLevel(evento.getLevel());
+        notificacion.setEventCategory(evento.getCategoryName());
+        notificacion.setEventAction(evento.getAccion());
+        notificacion.setEventDescription(evento.getDescripcion());
+        notificacion.setEventResource(evento.getRecurso());
+        notificacion.setTimeGenerated(evento.getStartTime());
+        notificacion.setSeverity("500");
     }
 
 
