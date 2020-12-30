@@ -58,6 +58,7 @@ public class RabbitConsumer {
         }catch (HttpClientErrorException | InterruptedException e){
             LOGGER.info(e.getMessage());
         } catch (JsonProcessingException e) {
+            System.out.println(stringEvento);
             e.printStackTrace();
         }
     }

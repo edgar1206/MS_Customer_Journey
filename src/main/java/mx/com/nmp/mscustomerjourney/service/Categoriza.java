@@ -1,5 +1,7 @@
 package mx.com.nmp.mscustomerjourney.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import mx.com.nmp.mscustomerjourney.model.NR.Evento;
 import mx.com.nmp.mscustomerjourney.model.log.LogsDTO;
@@ -16,17 +18,25 @@ public class Categoriza {
 
     public void categorizar(String stringEvento){
         Gson gson = new Gson();
-        LogsDTO evento = gson.fromJson(stringEvento, LogsDTO.class);
-        if(evento.getLevel().equalsIgnoreCase("Error")){
-            verificaNivelError(evento);
+       // LogsDTO evento = gson.fromJson(stringEvento, LogsDTO.class);
+        try {
+            LogsDTO evento = new ObjectMapper().readValue(stringEvento, LogsDTO.class);
+            if(evento.getLevel().equalsIgnoreCase("Error")){
+                verificaNivelError(evento);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
+
     }
 
     private void verificaNivelError (LogsDTO evento){
         System.out.println();
         Gson gson = new Gson();
         TipoError1 tipoError1 = gson.fromJson(evento.getDescripcion(), TipoError1.class);
-        if(tipoError1.getCodigoError() != null && tipoError1.getCodigoError().equalsIgnoreCase("NMP-2003")){
+
+        System.out.println("tipo error " +tipoError1.getCodigoError());
+        if(tipoError1.getCodigoError() != null && tipoError1.getCodigoError().equalsIgnoreCase("NMP-30001")){
             System.out.println(gson.toJson(tipoError1));
             generaIncidencia(evento);
         }
