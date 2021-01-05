@@ -24,7 +24,7 @@ public class RabbitSender {
       /*  Message message = MessageBuilder.withBody(log.getBytes()).build();
         rabbitTemplate.convertAndSend(Constants.EXCHANGE,Constants.ROUTING_KEY_EVENTOS,message);*/
         rabbitTemplate.convertAndSend(Constants.EXCHANGE, Constants.ROUTING_KEY_NOTIFICACIONES,evento);
-        LOGGER.info("envia mensaje a rabbit");
+
        /* Connection connectionRabbit = RabbitMQConfig.getInstance(urlRabbit).newConnection();
         try{
             Channel channel =  connectionRabbit.createChannel();

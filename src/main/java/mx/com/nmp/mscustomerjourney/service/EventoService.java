@@ -2,7 +2,6 @@ package mx.com.nmp.mscustomerjourney.service;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import mx.com.nmp.mscustomerjourney.model.NR.Evento;
 import mx.com.nmp.mscustomerjourney.model.log.LogsDTO;
 import mx.com.nmp.mscustomerjourney.model.constant.Constants;
@@ -21,9 +20,9 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 @Service
-public class RabbitConsumer {
+public class EventoService {
 
-    private static final Logger LOGGER = Logger.getLogger(RabbitConsumer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(EventoService.class.getName());
 
     @Autowired
     private Categoriza categoriza;
@@ -31,13 +30,9 @@ public class RabbitConsumer {
     @Autowired
     private RabbitSender rabbitSender;
 
-    @Autowired
-    private AmqpTemplate rabbitTemplate;
-
-    @RabbitListener(queues = "${spring.rabbitmq.queue.eventos}")
-    public void recibeLog(Message message){
+    public void recibeLog(String log){
         try {
-            LogsDTO logsDTO = new ObjectMapper().readValue(message.getBody(), LogsDTO.class);
+            LogsDTO logsDTO = new ObjectMapper().readValue(log, LogsDTO.class);
             Evento evento= estandarizacionLog(logsDTO);
             rabbitSender.enviaEvento(evento);
             guardaLog(evento);
@@ -52,13 +47,9 @@ public class RabbitConsumer {
 
     @Async
     private void guardaLog(Evento evento){
-        Gson gson = new Gson();
-        System.out.println();
         try{
             RestTemplate restTemplate = new RestTemplate();
             Thread.sleep(1);
-            System.out.println(gson.toJson(evento));
-            System.out.println("termina");
             HttpEntity<Evento> request = new HttpEntity<>(evento);
             restTemplate.postForEntity(Constants.MS_EVENTOS_URL,request,String.class);
         }catch (HttpClientErrorException | InterruptedException e){

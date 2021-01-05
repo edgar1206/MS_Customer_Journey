@@ -1,5 +1,8 @@
 package mx.com.nmp.mscustomerjourney.task;
 
+import mx.com.nmp.mscustomerjourney.model.catalogo.Errores;
+import mx.com.nmp.mscustomerjourney.service.MongoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -13,6 +16,8 @@ import java.util.logging.Logger;
 
 @Component
 public class Monitoreo {
+    @Autowired
+    private MongoService mongoService;
 
     private List<String> urlList;
 
@@ -52,6 +57,24 @@ public class Monitoreo {
             }
         } catch (Exception e) {
             LOGGER.info("error -> " + url);
+        }
+    }
+    @Scheduled(cron = "${carga.cron.time}")
+    public void cargaCatalogo(){
+        mongoService.cargaCatalogo();
+    }
+
+    @Scheduled(cron = "${restablece.cron.time}")
+    public void restableceCatalogo(){
+        List<Errores> erroresLista= mongoService.getListaErrores();
+        for (Errores error: erroresLista) {
+            long tiempoMs = new Date().getTime() - error.getUltimaActualizacion().getTime();
+            long diferenciaMinutos = tiempoMs / (1000 * 60);
+            if(diferenciaMinutos >=5 && !error.getAlertamiento().isEmpty()){
+                error.setAlertamiento("");
+                error.setUltimaActualizacion(new Date());
+                mongoService.saveError(error);
+            }
         }
     }
 }
