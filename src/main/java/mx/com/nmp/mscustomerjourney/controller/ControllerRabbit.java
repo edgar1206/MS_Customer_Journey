@@ -15,7 +15,7 @@ public class ControllerRabbit {
 
     @PostMapping("/sendLog")
     public ResponseEntity<?> sendLog(@RequestBody String log){
-        rabbitSender.enviaLog(log);
+        //rabbitSender.enviaLog(log);
         return ResponseEntity.ok().build();
     }
 

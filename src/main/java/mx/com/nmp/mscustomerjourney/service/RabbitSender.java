@@ -1,6 +1,7 @@
 package mx.com.nmp.mscustomerjourney.service;
 
 import com.google.gson.Gson;
+import mx.com.nmp.mscustomerjourney.model.NR.Evento;
 import mx.com.nmp.mscustomerjourney.model.log.LogsDTO;
 import mx.com.nmp.mscustomerjourney.model.constant.Constants;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -19,9 +20,10 @@ public class RabbitSender {
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
-    public void enviaLog(String log) {
-        Message message = MessageBuilder.withBody(log.getBytes()).build();
-        rabbitTemplate.convertAndSend(Constants.EXCHANGE,Constants.ROUTING_KEY_EVENTOS,message);
+    public void enviaEvento(Evento evento) {
+      /*  Message message = MessageBuilder.withBody(log.getBytes()).build();
+        rabbitTemplate.convertAndSend(Constants.EXCHANGE,Constants.ROUTING_KEY_EVENTOS,message);*/
+        rabbitTemplate.convertAndSend(Constants.EXCHANGE, Constants.ROUTING_KEY_NOTIFICACIONES,evento);
         LOGGER.info("envia mensaje a rabbit");
        /* Connection connectionRabbit = RabbitMQConfig.getInstance(urlRabbit).newConnection();
         try{

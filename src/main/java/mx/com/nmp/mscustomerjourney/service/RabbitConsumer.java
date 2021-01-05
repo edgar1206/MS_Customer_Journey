@@ -1,10 +1,8 @@
 package mx.com.nmp.mscustomerjourney.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-//import com.sun.corba.se.spi.ior.ObjectId;
 import mx.com.nmp.mscustomerjourney.model.NR.Evento;
 import mx.com.nmp.mscustomerjourney.model.log.LogsDTO;
 import mx.com.nmp.mscustomerjourney.model.constant.Constants;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -30,25 +29,32 @@ public class RabbitConsumer {
     private Categoriza categoriza;
 
     @Autowired
+    private RabbitSender rabbitSender;
+
+    @Autowired
     private AmqpTemplate rabbitTemplate;
 
     @RabbitListener(queues = "${spring.rabbitmq.queue.eventos}")
     public void recibeLog(Message message){
-        guardaLog(new String(message.getBody()));
-        procesaLog(new String(message.getBody()));
+        try {
+            LogsDTO logsDTO = new ObjectMapper().readValue(message.getBody(), LogsDTO.class);
+            Evento evento= estandarizacionLog(logsDTO);
+            rabbitSender.enviaEvento(evento);
+            guardaLog(evento);
+            procesaLog(evento);
+        }catch (JsonParseException e){
+            LOGGER.info(e.getMessage());
+        }
+        catch (IOException e){
+            LOGGER.info(e.getMessage());
+        }
     }
 
     @Async
-    private void guardaLog(String stringEvento){
+    private void guardaLog(Evento evento){
         Gson gson = new Gson();
         System.out.println();
-        System.out.println(stringEvento);
-        //LogsDTO evento = gson.fromJson(stringEvento, LogsDTO.class);
-        //evento.setAccion("ninguna");
-        //System.out.println(gson.toJson(evento));
         try{
-            LogsDTO logsDTO = new ObjectMapper().readValue(stringEvento, LogsDTO.class);
-            Evento evento=estandarizacionLog(logsDTO);
             RestTemplate restTemplate = new RestTemplate();
             Thread.sleep(1);
             System.out.println(gson.toJson(evento));
@@ -57,15 +63,12 @@ public class RabbitConsumer {
             restTemplate.postForEntity(Constants.MS_EVENTOS_URL,request,String.class);
         }catch (HttpClientErrorException | InterruptedException e){
             LOGGER.info(e.getMessage());
-        } catch (JsonProcessingException e) {
-            System.out.println(stringEvento);
-            e.printStackTrace();
         }
     }
 
     @Async
-    private void procesaLog(String stringEvento){
-        categoriza.categorizar(stringEvento);
+    private void procesaLog(Evento evento){
+        categoriza.categorizar(evento);
     }
 
     private Evento estandarizacionLog(LogsDTO logsDTO) {

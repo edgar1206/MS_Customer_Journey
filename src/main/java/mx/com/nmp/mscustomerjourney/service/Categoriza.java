@@ -16,55 +16,39 @@ import java.util.UUID;
 @Service
 public class Categoriza {
 
-    public void categorizar(String stringEvento){
-        Gson gson = new Gson();
-       // LogsDTO evento = gson.fromJson(stringEvento, LogsDTO.class);
-        try {
-            LogsDTO evento = new ObjectMapper().readValue(stringEvento, LogsDTO.class);
-            if(evento.getLevel().equalsIgnoreCase("Error")){
+    public void categorizar(Evento evento){
+            if(evento.getEventLevel().equalsIgnoreCase("Error")){
                 verificaNivelError(evento);
             }
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
 
     }
 
-    private void verificaNivelError (LogsDTO evento){
+    private void verificaNivelError (Evento evento){
         System.out.println();
         Gson gson = new Gson();
-        TipoError1 tipoError1 = gson.fromJson(evento.getDescripcion(), TipoError1.class);
+        TipoError1 tipoError1 = gson.fromJson(evento.getEventDescription(), TipoError1.class);
 
         System.out.println("tipo error " +tipoError1.getCodigoError());
         if(tipoError1.getCodigoError() != null && tipoError1.getCodigoError().equalsIgnoreCase("NMP-30001")){
             System.out.println(gson.toJson(tipoError1));
             generaIncidencia(evento);
         }
-        TipoError2 tipoError2 = gson.fromJson(evento.getDescripcion(), TipoError2.class);
+        TipoError2 tipoError2 = gson.fromJson(evento.getEventDescription(), TipoError2.class);
         if(tipoError2.getCode() != null){
             System.out.println(gson.toJson(tipoError2));
         }
-        TipoError3 tipoError3 = gson.fromJson(evento.getDescripcion(), TipoError3.class);
+        TipoError3 tipoError3 = gson.fromJson(evento.getEventDescription(), TipoError3.class);
         if(tipoError3.getError_code() != null){
             System.out.println(gson.toJson(tipoError3));
         }
-        TipoError4 tipoError4 = gson.fromJson(evento.getDescripcion(), TipoError4.class);
+        TipoError4 tipoError4 = gson.fromJson(evento.getEventDescription(), TipoError4.class);
         if(tipoError4.getError() != null){
             System.out.println(gson.toJson(tipoError4));
         }
     }
 
-    private void generaIncidencia(LogsDTO evento) {
-        Evento notificacion = new Evento();
-        notificacion.setIdEvent(UUID.randomUUID().toString());
-        notificacion.setEventType("Mimonte");
-        notificacion.setEventLevel(evento.getLevel());
-        notificacion.setEventCategory(evento.getCategoryName());
-        notificacion.setEventAction(evento.getAccion());
-        notificacion.setEventDescription(evento.getDescripcion());
-        notificacion.setEventResource(evento.getRecurso());
-        notificacion.setTimeGenerated(evento.getStartTime());
-        notificacion.setSeverity("500");
+    private void generaIncidencia(Evento evento) {
+        evento.setSeverity("LOW");
     }
 
 
