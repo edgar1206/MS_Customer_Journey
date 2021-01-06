@@ -1,6 +1,6 @@
 package mx.com.nmp.mscustomerjourney.modelError;
 
-public class TipoError1 {
+public class MidasError {
 
     private String codigoError;
     private String descripcionError;

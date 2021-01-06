@@ -1,6 +1,6 @@
 package mx.com.nmp.mscustomerjourney.modelError;
 
-public class TipoError2 {
+public class CognitoError {
 
     private String retryDelay;
     private String retryable;

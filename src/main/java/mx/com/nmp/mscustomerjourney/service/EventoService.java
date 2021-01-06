@@ -25,6 +25,9 @@ public class EventoService {
     private static final Logger LOGGER = Logger.getLogger(EventoService.class.getName());
 
     @Autowired
+    private Constants constants;
+
+    @Autowired
     private Categoriza categoriza;
 
     @Autowired
@@ -51,7 +54,7 @@ public class EventoService {
             RestTemplate restTemplate = new RestTemplate();
             Thread.sleep(1);
             HttpEntity<Evento> request = new HttpEntity<>(evento);
-            restTemplate.postForEntity(Constants.MS_EVENTOS_URL,request,String.class);
+            restTemplate.postForEntity(constants.getMS_EVENTOS_URL(),request,String.class);
         }catch (HttpClientErrorException | InterruptedException e){
             LOGGER.info(e.getMessage());
         }

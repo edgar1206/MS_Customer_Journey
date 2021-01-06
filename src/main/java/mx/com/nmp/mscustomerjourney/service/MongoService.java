@@ -31,4 +31,6 @@ public class MongoService {
     public void saveError(Errores error){
         erroresRepository.save(error);
     }
+
+    public void saveErrores(List<Errores> listaErrores){erroresRepository.saveAll(listaErrores);}
 }

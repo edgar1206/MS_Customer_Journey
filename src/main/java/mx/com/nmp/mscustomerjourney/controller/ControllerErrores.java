@@ -1,6 +1,7 @@
 package mx.com.nmp.mscustomerjourney.controller;
 
 import mx.com.nmp.mscustomerjourney.model.catalogo.Errores;
+import mx.com.nmp.mscustomerjourney.model.dto.ListaErrores;
 import mx.com.nmp.mscustomerjourney.model.dto.ErroresDto;
 import mx.com.nmp.mscustomerjourney.service.MongoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +27,21 @@ public class ControllerErrores {
        Errores error = new Errores();
        error.setCodigoError(erroresDto.getCodigoError());
        error.setUltimaActualizacion(new Date());
+       error.setAlertamiento("");
        mongoService.saveError(error);
        return ResponseEntity.ok().build();
     }
     @PostMapping("/errores")
-    public ResponseEntity<?> agregaErrores(@RequestBody List<ErroresDto> erroresDtoLista){
+    public ResponseEntity<?> agregaErrores(@RequestBody ListaErrores erroresDtoLista){
         List<Errores> erroresLista = new ArrayList<>();
-        for (ErroresDto erroresDto: erroresDtoLista) {
-            Errores errores = new Errores();
-            errores.setCodigoError(erroresDto.getCodigoError());
-            erroresLista.add(errores);
+        for (ErroresDto erroresDto: erroresDtoLista.getListaErrores()) {
+            Errores error = new Errores();
+            error.setCodigoError(erroresDto.getCodigoError());
+            error.setUltimaActualizacion(new Date());
+            error.setAlertamiento("");
+            erroresLista.add(error);
         }
-        mongoService.setListaErrores(erroresLista);
+        mongoService.saveErrores(erroresLista);
         return ResponseEntity.ok().build();
     }
 }

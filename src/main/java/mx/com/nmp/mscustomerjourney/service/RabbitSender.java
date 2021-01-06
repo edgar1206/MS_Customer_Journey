@@ -20,10 +20,13 @@ public class RabbitSender {
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
+    @Autowired
+    private Constants constants;
+
     public void enviaEvento(Evento evento) {
       /*  Message message = MessageBuilder.withBody(log.getBytes()).build();
         rabbitTemplate.convertAndSend(Constants.EXCHANGE,Constants.ROUTING_KEY_EVENTOS,message);*/
-        rabbitTemplate.convertAndSend(Constants.EXCHANGE, Constants.ROUTING_KEY_NOTIFICACIONES,evento);
+        rabbitTemplate.convertAndSend(constants.getEXCHANGE(), constants.getROUTING_KEY_NOTIFICACIONES(),evento);
 
        /* Connection connectionRabbit = RabbitMQConfig.getInstance(urlRabbit).newConnection();
         try{

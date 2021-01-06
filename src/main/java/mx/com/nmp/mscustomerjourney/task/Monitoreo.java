@@ -1,6 +1,7 @@
 package mx.com.nmp.mscustomerjourney.task;
 
 import mx.com.nmp.mscustomerjourney.model.catalogo.Errores;
+import mx.com.nmp.mscustomerjourney.model.constant.Constants;
 import mx.com.nmp.mscustomerjourney.service.MongoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -20,6 +21,9 @@ public class Monitoreo {
     private MongoService mongoService;
 
     private List<String> urlList;
+
+    @Autowired
+    private Constants constants;
 
     private static final Logger LOGGER = Logger.getLogger(Monitoreo.class.getName());
 
@@ -69,12 +73,20 @@ public class Monitoreo {
         List<Errores> erroresLista= mongoService.getListaErrores();
         for (Errores error: erroresLista) {
             long tiempoMs = new Date().getTime() - error.getUltimaActualizacion().getTime();
-            long diferenciaMinutos = tiempoMs / (1000 * 60);
-            if(diferenciaMinutos >=5 && !error.getAlertamiento().isEmpty()){
+            long diferenciaMinutos = tiempoMs / (1000 * 60 );
+            if(diferenciaMinutos >=Integer.valueOf(constants.getREFRESH_ALERT()) && !error.getAlertamiento().isEmpty()){
                 error.setAlertamiento("");
                 error.setUltimaActualizacion(new Date());
+                notificarServicioFuncional(error.getCodigoError());
                 mongoService.saveError(error);
             }
         }
     }
+
+    public void notificarServicioFuncional(String codigoError){
+        System.out.println("El servicio "+codigoError +" ya funciona");
+
+    }
+
+
 }

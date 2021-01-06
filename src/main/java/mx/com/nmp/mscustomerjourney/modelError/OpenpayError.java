@@ -1,6 +1,6 @@
 package mx.com.nmp.mscustomerjourney.modelError;
 
-public class TipoError3 {
+public class OpenpayError {
 
     private String error_code;
     private String http_code;

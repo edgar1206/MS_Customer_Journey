@@ -13,6 +13,7 @@ public class Errores {
     private String alertamiento;
     private Date ultimaActualizacion;
 
+
     public String getId() {
         return id;
     }
