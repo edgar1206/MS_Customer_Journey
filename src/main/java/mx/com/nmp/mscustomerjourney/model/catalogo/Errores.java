@@ -5,14 +5,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-@Document(collection = "#{@environment.getProperty('indice.mongo')}")
+@Document(collection = "#{@environment.getProperty('indice.errores.mongo')}")
 public class Errores {
+
     @Id
     private String id;
     private String codigoError;
     private String alertamiento;
     private Date ultimaActualizacion;
-
+    private String nombreAplicacion;
+    private String recurso;
 
     public String getId() {
         return id;
@@ -45,4 +47,21 @@ public class Errores {
     public void setUltimaActualizacion(Date ultimaActualizacion) {
         this.ultimaActualizacion = ultimaActualizacion;
     }
+
+    public String getNombreAplicacion() {
+        return nombreAplicacion;
+    }
+
+    public void setNombreAplicacion(String nombreAplicacion) {
+        this.nombreAplicacion = nombreAplicacion;
+    }
+
+    public String getRecurso() {
+        return recurso;
+    }
+
+    public void setRecurso(String recurso) {
+        this.recurso = recurso;
+    }
+
 }

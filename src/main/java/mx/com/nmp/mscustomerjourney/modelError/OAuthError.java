@@ -1,6 +1,6 @@
 package mx.com.nmp.mscustomerjourney.modelError;
 
-public class TipoError4 {
+public class OAuthError {
 
     private String error;
 

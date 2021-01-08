@@ -14,7 +14,7 @@ public class CustomerjourneyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CustomerjourneyApplication.class, args);
 	}
-
+/*
 	@Bean("threadPoolTaskExecutor")
 	public TaskExecutor getAsyncExecutor(){
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
@@ -23,6 +23,6 @@ public class CustomerjourneyApplication {
 		executor.setWaitForTasksToCompleteOnShutdown(true);
 		executor.setThreadNamePrefix("Async-");
 		return executor;
-	}
+	}*/
 
 }

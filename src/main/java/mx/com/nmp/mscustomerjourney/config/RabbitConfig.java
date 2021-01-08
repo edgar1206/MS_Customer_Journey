@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
+
     @Autowired
     private Constants constants;
 
@@ -23,6 +24,11 @@ public class RabbitConfig {
     @Bean
     Queue queueNotificacion() {
         return new Queue(constants.getQUEUE_NOTIFICACIONES(), false);
+    }
+
+    @Bean
+    Queue queueExperiencias(){
+        return new Queue(constants.getQUEUE_EXPERIENCIA(), false);
     }
 
     @Bean
@@ -38,6 +44,11 @@ public class RabbitConfig {
     @Bean
     Binding bindingNotificacion() {
         return BindingBuilder.bind(queueNotificacion()).to(exchange()).with(constants.getROUTING_KEY_NOTIFICACIONES());
+    }
+
+    @Bean
+    Binding bindingExperiencia(){
+        return BindingBuilder.bind(queueExperiencias()).to(exchange()).with(constants.getROUTING_KEY_EXPERIENCIA());
     }
 
     @Bean

@@ -1,7 +1,10 @@
 package mx.com.nmp.mscustomerjourney.task;
 
+import mx.com.nmp.mscustomerjourney.model.NR.Evento;
+import mx.com.nmp.mscustomerjourney.model.catalogo.Application;
 import mx.com.nmp.mscustomerjourney.model.catalogo.Errores;
 import mx.com.nmp.mscustomerjourney.model.constant.Constants;
+import mx.com.nmp.mscustomerjourney.service.IncidenciaService;
 import mx.com.nmp.mscustomerjourney.service.MongoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -10,83 +13,173 @@ import org.springframework.stereotype.Component;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Component
 public class Monitoreo {
-    @Autowired
-    private MongoService mongoService;
-
-    private List<String> urlList;
 
     @Autowired
     private Constants constants;
 
+    @Autowired
+    private IncidenciaService incidenciaService;
+
+    @Autowired
+    private MongoService mongoService;
+
+    private List<Application> applications;
+
     private static final Logger LOGGER = Logger.getLogger(Monitoreo.class.getName());
 
-    public Monitoreo(){
-        urlList = new ArrayList<>();
-        urlList.add("https://dev1775-frontmimontepagos.mybluemix.net/login");
-        urlList.add("https://iamdr.montepiedad.com.mx:4444/NMP/oauth/token");
-        urlList.add("https://dev1775-mimonte-fase2.mybluemix.net:443/mimonte/v1/tarjetas/cliente");
-        urlList.add("https://iamdr.montepiedad.com.mx:4444/NMP/OperacionPrendaria/OperacionesEnLinea/Transaccion.svc/v1/Recibos/Detalle");
-        urlList.add("https://417aa3f7200b4e4ab27e35032757cadd.us-east-1.aws.found.io:9243/mm_promociones_dev/_search?size=10");
-        urlList.add("https://iamdr.montepiedad.com.mx:4444/NMP/GestionClientes/UsuariosMonte/v1/validarDatos");
-        urlList.add("https://iamdr.montepiedad.com.mx:4444/NMP/OperacionPrendaria/Partidas/v1/Cliente");
+    public Monitoreo() {
+        this.applications = new ArrayList<>();
     }
 
-    //@Scheduled(cron = "${event.cron.time}")
+    @Scheduled(cron = "${monitoreo.aplicaciones.cron.time}")
     public void startTask(){
-        LOGGER.info("inicia ejecucion de monitoreo " + new Date());
-        //urlList = serviciosMongo.getServicios();
-        urlList.stream().parallel().forEach(this::monitoreo);
-        LOGGER.info("termina ejecucion de monitoreo " + new Date());
+        if( applications == null){
+            return;
+        }
+        applications.stream().parallel().forEach(this::monitoreo);
     }
 
-    @Async("threadPoolTaskExecutor")
-    public void monitoreo(String url){
+    @Async//("threadPoolTaskExecutor")
+    public void monitoreo(Application application){
         try {
-            URL siteURL = new URL(url);
+            URL siteURL = new URL(application.getUrlAplicacionWeb());
             HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
             connection.setRequestMethod("GET");
-            connection.setConnectTimeout(1000);
+            connection.setConnectTimeout(2000);
             connection.connect();
             int code = connection.getResponseCode();
-            LOGGER.info(code + " -> " + url);
-            if (code == 404 || code == 408) {
-                LOGGER.info("error -> " + code + ": " + url);
+            if (code != 200) {
+                LOGGER.info("error no responde el sitio web -> " + application.getUrlAplicacionWeb());
+                nivelAlertamientoSitioWeb(application);
+            }else{
+                verificaFuncionalidadSitioWeb(application);
             }
         } catch (Exception e) {
-            LOGGER.info("error -> " + url);
+            LOGGER.info("error no responde el sitio web -> " + application.getUrlAplicacionWeb());
+            nivelAlertamientoSitioWeb(application);
         }
     }
-    @Scheduled(cron = "${carga.cron.time}")
+
+    @Async
+    @Scheduled(cron = "${carga.catalogos.cron.time}")
     public void cargaCatalogo(){
+        applications = mongoService.cargaAplicaciones();
         mongoService.cargaCatalogo();
     }
 
-    @Scheduled(cron = "${restablece.cron.time}")
-    public void restableceCatalogo(){
-        List<Errores> erroresLista= mongoService.getListaErrores();
+    @Scheduled(cron = "${restablece.catalogo.errores.cron.time}")
+    private void restableceAlertasCatalogoErrores(){
+        List<Errores> erroresLista = new ArrayList<>();
+        erroresLista = mongoService.getListaErrores();
+        if(erroresLista == null){
+            return;
+        }
         for (Errores error: erroresLista) {
             long tiempoMs = new Date().getTime() - error.getUltimaActualizacion().getTime();
             long diferenciaMinutos = tiempoMs / (1000 * 60 );
-            if(diferenciaMinutos >=Integer.valueOf(constants.getREFRESH_ALERT()) && !error.getAlertamiento().isEmpty()){
+            if(diferenciaMinutos >= Integer.parseInt(constants.getREFRESH_ALERT()) && !error.getAlertamiento().isEmpty() && estatusFuncional(error.getRecurso())){
+                notificaServicioFuncional(error);
                 error.setAlertamiento("");
+                error.setRecurso("");
                 error.setUltimaActualizacion(new Date());
-                notificarServicioFuncional(error.getCodigoError());
                 mongoService.saveError(error);
             }
         }
     }
 
-    public void notificarServicioFuncional(String codigoError){
-        System.out.println("El servicio "+codigoError +" ya funciona");
-
+    private Boolean estatusFuncional(String url){
+        if(!url.contains("https://")){
+            return true;
+        }
+        try {
+            String[] array = url.split("/");
+            String[] valorPuerto = new String[2];
+            StringBuilder fullPath = new StringBuilder();
+            for ( int i = 0; i < array.length ; i++ ) {
+                if( i > 2 && i < array.length -1 ){
+                    fullPath.append(array[i]).append("/");
+                }
+                valorPuerto = array[i].split(":");
+            }
+            String protocol = array[0];
+            String host = array[2];
+            String puerto = valorPuerto[1];
+            String recurso = protocol + "//" + host + ":" + puerto + fullPath + valorPuerto[0];
+            URL siteURL = new URL(recurso);
+            HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(2000);
+            connection.connect();
+            return connection.getResponseCode() != 500;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
+    private void generaIncidenciaSitioWeb(Application application){
+        Evento evento = new Evento();
+        evento.setTimeGenerated(new Date());
+        evento.setEventDescription("El sitio web no responde");
+        evento.setEventLevel("Error");
+        evento.setIdEvent(UUID.randomUUID().toString());
+        evento.setEventResource(application.getUrlAplicacionWeb());
+        evento.setTimeGenerated(application.getUltimaActualizacion());
+        evento.setSeverity("HIGH");
+        evento.setEventType(application.getNombreAplicacion());
+        evento.setEventAction("");
+        evento.setEventCategory("");
+        evento.setPhase("");
+        incidenciaService.generaIncidencia(evento);
+    }
+
+    private void nivelAlertamientoSitioWeb(Application application){
+        application = mongoService.getApplication(application.getId());
+        if(application.getAlertamiento().isEmpty()){
+            application.setAlertamiento("1");
+        }else{
+            int num = Integer.parseInt(application.getAlertamiento());
+            num+=1;
+            if(num == 5){
+                application.setUltimaActualizacion(new Date());
+                generaIncidenciaSitioWeb(application);
+            }
+            application.setAlertamiento(String.valueOf(num));
+        }
+        mongoService.saveApplication(application);
+    }
+
+    private void verificaFuncionalidadSitioWeb(Application application){
+        long tiempoMs = new Date().getTime() - application.getUltimaActualizacion().getTime();
+        long diferenciaMinutos = tiempoMs / (1000 * 60 );
+        if(diferenciaMinutos >= Integer.parseInt(constants.getREFRESH_APPLICACION()) && !application.getAlertamiento().isEmpty()){
+            applications.forEach(applicationweb -> {
+                if (applicationweb.getId().equalsIgnoreCase(application.getId())){
+                    applicationweb.setAlertamiento("");
+                    applicationweb.setUltimaActualizacion(new Date());
+                    mongoService.saveApplication(applicationweb);
+                    notificaSitioWebFuncional(applicationweb);
+                }
+            });
+        }
+    }
+
+    private void notificaSitioWebFuncional(Application application){
+        System.out.println("La app " + application.getNombreAplicacion() + " restablecida y funcional");
+        /*TODO
+        *  enviar notificacion a service now
+        * */
+    }
+
+    private void notificaServicioFuncional(Errores error){
+        /*TODO
+         *  enviar notificacion a service now
+         * */
+        System.out.println("Se ha restablecido el recurso " + error.getRecurso() + " de la app " + error.getNombreAplicacion());
+    }
 
 }

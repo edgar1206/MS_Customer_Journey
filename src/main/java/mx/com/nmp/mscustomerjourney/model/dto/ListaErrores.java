@@ -1,9 +1,10 @@
 package mx.com.nmp.mscustomerjourney.model.dto;
 
-
+import java.io.Serializable;
 import java.util.List;
 
-public class ListaErrores {
+public class ListaErrores implements Serializable {
+
     private List<ErroresDto> listaErrores;
 
     public List<ErroresDto> getListaErrores() {
@@ -13,4 +14,5 @@ public class ListaErrores {
     public void setListaErrores(List<ErroresDto> listaErrores) {
         this.listaErrores = listaErrores;
     }
+
 }
