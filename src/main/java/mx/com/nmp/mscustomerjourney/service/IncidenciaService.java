@@ -54,6 +54,7 @@ public class IncidenciaService {
 
     private void verificaError(String codigoError, Evento evento){
         List<Errores> listaErrores = mongoService.getListaErrores();
+        System.out.println(codigoError);
         if(listaErrores == null){
             LOGGER.info("Catalogo de errores vacio.");
             return;
@@ -71,7 +72,7 @@ public class IncidenciaService {
                 }else if( diferenciaMinutos >= Integer.parseInt(constants.getTIEMPO_AUMENTA_ALERTAMIENTO())&& error.getAlertamiento().equalsIgnoreCase("Moderate")){
                     error.setAlertamiento("High");
                     guardaAlertamiento(error, evento);
-                }else if( diferenciaMinutos >= Integer.parseInt(constants.getTIEMPO_AUMENTA_ALERTAMIENTO())&& error.getAlertamiento().equalsIgnoreCase("Medium")){
+                }else if( diferenciaMinutos >= Integer.parseInt(constants.getTIEMPO_AUMENTA_ALERTAMIENTO())&& error.getAlertamiento().equalsIgnoreCase("High")){
                     error.setAlertamiento("Critical");
                     guardaAlertamiento(error, evento);
                 }
@@ -91,7 +92,10 @@ public class IncidenciaService {
 
     public void generaIncidencia(Evento evento) {
         try{
-            LOGGER.info("Incidencia generada " + evento.getEventDescription() + " " + evento.getEventResource() + " " + evento.getTimeGenerated());
+            Gson gson = new Gson();
+            LOGGER.info("Incidencia encontrada");
+            System.out.println(gson.toJson(evento));
+            //LOGGER.info("Incidencia generada " + evento.getEventDescription() + " " + evento.getEventResource() + " " + evento.getTimeGenerated());
         }catch (Exception e){
             LOGGER.info("Error: " + e.getMessage());
         }
