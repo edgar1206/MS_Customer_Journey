@@ -9,7 +9,12 @@ import mx.com.nmp.mscustomerjourney.modelError.CognitoError;
 import mx.com.nmp.mscustomerjourney.modelError.OpenpayError;
 import mx.com.nmp.mscustomerjourney.modelError.OAuthError;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.List;
@@ -27,7 +32,7 @@ public class IncidenciaService {
     private MongoService mongoService;
 
     public void categorizar(Evento evento){
-        if(evento.getEventLevel().equalsIgnoreCase("Error")){
+        if(evento.getEventLevel().equalsIgnoreCase("Error") || evento.getEventLevel().equalsIgnoreCase("Fatal")){
             getCodigoError(evento);
         }
     }
@@ -92,10 +97,15 @@ public class IncidenciaService {
 
     public void generaIncidencia(Evento evento) {
         try{
-            Gson gson = new Gson();
             LOGGER.info("Incidencia encontrada");
-            System.out.println(gson.toJson(evento));
-            //LOGGER.info("Incidencia generada " + evento.getEventDescription() + " " + evento.getEventResource() + " " + evento.getTimeGenerated());
+           /* RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers= new HttpHeaders();
+            headers.set("Content-Type","application/json");
+            headers.set("X-Insert-Key","NRII-GZKVjLai0OwkBWFqNuybOm_d4v7m2oaW");
+            headers.set("Content-Encoding","gzip");
+            HttpEntity<Evento> request = new HttpEntity<>(evento,headers);
+            ResponseEntity respuestaNewRelic=restTemplate.postForEntity(constants.getNEW_RELIC_URL(),request,String.class);
+            LOGGER.info("Codigo respuesta New Relic "+respuestaNewRelic.getStatusCode());*/
         }catch (Exception e){
             LOGGER.info("Error: " + e.getMessage());
         }

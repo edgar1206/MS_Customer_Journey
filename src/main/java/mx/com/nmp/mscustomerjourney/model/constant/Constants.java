@@ -21,6 +21,7 @@ public class Constants {
     private String REFRESH_ALERT;
     private String REFRESH_APPLICACION;
     private String TIEMPO_AUMENTA_ALERTAMIENTO;
+    private String NEW_RELIC_URL;
 
     public Constants(
 
@@ -38,7 +39,8 @@ public class Constants {
              @Value("${rango.nivel.alertamiento.minutos}") String TIEMPO_AUMENTA_ALERTAMIENTO,
              @Value("${spring.rabbitmq.queue.experiencia}") String QUEUE_EXPERIENCIA,
              @Value("${spring.rabbitmq.routingkey.experiencia}") String ROUTING_KEY_EXPERIENCIA,
-             @Value("${refresh.applicacion.time.minutos}") String REFRESH_APPLICACION)
+             @Value("${refresh.applicacion.time.minutos}") String REFRESH_APPLICACION,
+             @Value("${endpoint.newrelic.url}") String NEW_RELIC_URL)
 
     {
 
@@ -57,6 +59,7 @@ public class Constants {
         this.REFRESH_ALERT = REFRESH_ALERT;
         this.REFRESH_APPLICACION = REFRESH_APPLICACION;
         this.TIEMPO_AUMENTA_ALERTAMIENTO= TIEMPO_AUMENTA_ALERTAMIENTO;
+        this.NEW_RELIC_URL= NEW_RELIC_URL;
 
     }
 
@@ -120,5 +123,8 @@ public class Constants {
         return REFRESH_APPLICACION;
     }
 
+    public String getNEW_RELIC_URL() {
+        return NEW_RELIC_URL;
+    }
 }
 

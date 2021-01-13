@@ -129,7 +129,7 @@ public class Monitoreo {
         evento.setIdEvent(UUID.randomUUID().toString());
         evento.setEventResource(application.getUrlAplicacionWeb());
         evento.setTimeGenerated(application.getUltimaActualizacion());
-        evento.setSeverity("HIGH");
+        evento.setSeverity("CRITICAL");
         evento.setEventType(application.getNombreAplicacion());
         evento.setEventAction("");
         evento.setEventCategory("");
