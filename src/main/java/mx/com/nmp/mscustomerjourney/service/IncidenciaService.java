@@ -104,8 +104,8 @@ public class IncidenciaService {
             headers.set("X-Insert-Key","NRII-GZKVjLai0OwkBWFqNuybOm_d4v7m2oaW");
             headers.set("Content-Encoding","gzip");
             HttpEntity<Evento> request = new HttpEntity<>(evento,headers);
-            ResponseEntity respuestaNewRelic=restTemplate.postForEntity(constants.getNEW_RELIC_URL(),request,String.class);
-            LOGGER.info("Codigo respuesta New Relic "+respuestaNewRelic.getStatusCode());*/
+            ResponseEntity respuestaNewRelic = restTemplate.postForEntity(constants.getNEW_RELIC_URL(),request,String.class);
+            LOGGER.info("Codigo respuesta New Relic " + respuestaNewRelic.getStatusCode());*/
         }catch (Exception e){
             LOGGER.info("Error: " + e.getMessage());
         }

@@ -44,7 +44,7 @@ public class Monitoreo {
         applications.stream().parallel().forEach(this::monitoreo);
     }
 
-    @Async//("threadPoolTaskExecutor")
+    @Async
     public void monitoreo(Application application){
         try {
             URL siteURL = new URL(application.getUrlAplicacionWeb());
@@ -133,7 +133,7 @@ public class Monitoreo {
         evento.setEventType(application.getNombreAplicacion());
         evento.setEventAction("");
         evento.setEventCategory("");
-        evento.setPhase("");
+        evento.setEventPhase("");
         incidenciaService.generaIncidencia(evento);
     }
 

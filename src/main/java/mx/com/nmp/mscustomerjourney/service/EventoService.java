@@ -72,7 +72,7 @@ public class EventoService {
         evento.setEventDescription(logsDTO.getDescripcion());
         evento.setEventResource(logsDTO.getRecurso());
         evento.setTimeGenerated(logsDTO.getStartTime());
-        evento.setPhase(logsDTO.getFase());
+        evento.setEventPhase(logsDTO.getFase());
         return evento;
     }
 

@@ -1,20 +1,30 @@
 package mx.com.nmp.mscustomerjourney.model.catalogo;
-
+/*
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+*/
 import java.io.Serializable;
 import java.util.Date;
 
-@Document(collection = "#{@environment.getProperty('indice.aplicaciones.mongo')}")
+//@Document(collection = "#{@environment.getProperty('indice.aplicaciones.mongo')}")
 public class Application implements Serializable {
 
-    @Id
+    //@Id
     private String id;
     private String urlAplicacionWeb;
     private String nombreAplicacion;
     private Date ultimaActualizacion;
     private String alertamiento;
+
+    public Application(String id, String urlAplicacionWeb, String nombreAplicacion, Date ultimaActualizacion, String alertamiento) {
+        this.id = id;
+        this.urlAplicacionWeb = urlAplicacionWeb;
+        this.nombreAplicacion = nombreAplicacion;
+        this.ultimaActualizacion = ultimaActualizacion;
+        this.alertamiento = alertamiento;
+    }
+
+    public Application(){}
 
     public String getId() {
         return id;

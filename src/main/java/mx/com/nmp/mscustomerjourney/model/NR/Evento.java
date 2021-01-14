@@ -15,7 +15,7 @@ public class Evento implements Serializable {
     private String severity;
     private String eventResource;
     private Date timeGenerated;
-    private String phase;
+    private String eventPhase;
 
     public String getIdEvent() {
         return idEvent;
@@ -89,12 +89,11 @@ public class Evento implements Serializable {
         this.timeGenerated = timeGenerated;
     }
 
-    public String getPhase() {
-        return phase;
+    public String getEventPhase() {
+        return eventPhase;
     }
 
-    public void setPhase(String phase) {
-        this.phase = phase;
+    public void setEventPhase(String eventPhase) {
+        this.eventPhase = eventPhase;
     }
-
 }
