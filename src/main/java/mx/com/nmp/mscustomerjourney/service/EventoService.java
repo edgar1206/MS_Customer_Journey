@@ -34,7 +34,7 @@ public class EventoService {
         try {
             LogsDTO logsDTO = new ObjectMapper().readValue(log, LogsDTO.class);
             Evento evento = estandarizacionLog(logsDTO, applicationName);
-            rabbitSender.enviaEvento(evento);
+            //rabbitSender.enviaEvento(evento);
             guardaLog(evento);
             procesaLog(evento);
         }catch (JsonParseException e){

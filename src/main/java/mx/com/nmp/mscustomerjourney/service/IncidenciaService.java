@@ -4,10 +4,7 @@ import com.google.gson.Gson;
 import mx.com.nmp.mscustomerjourney.model.NR.Evento;
 import mx.com.nmp.mscustomerjourney.model.catalogo.Errores;
 import mx.com.nmp.mscustomerjourney.model.constant.Constants;
-import mx.com.nmp.mscustomerjourney.modelError.MidasError;
-import mx.com.nmp.mscustomerjourney.modelError.CognitoError;
-import mx.com.nmp.mscustomerjourney.modelError.OpenpayError;
-import mx.com.nmp.mscustomerjourney.modelError.OAuthError;
+import mx.com.nmp.mscustomerjourney.modelError.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +28,8 @@ public class IncidenciaService {
     @Autowired
     private MongoService mongoService;
 
+    private int num = 1;
+
     public void categorizar(Evento evento){
         if(evento.getEventLevel().equalsIgnoreCase("Error") || evento.getEventLevel().equalsIgnoreCase("Fatal")){
             getCodigoError(evento);
@@ -39,6 +38,12 @@ public class IncidenciaService {
 
     private void getCodigoError (Evento evento){
         Gson gson = new Gson();
+        try{
+            MidasError midasError = gson.fromJson(evento.getEventDescription(), MidasError.class);
+        }catch (Exception e){
+            verificaError(evento.getEventDescription(), evento);
+            return;
+        }
         MidasError midasError = gson.fromJson(evento.getEventDescription(), MidasError.class);
         if(midasError.getCodigoError() != null){
             verificaError(midasError.getCodigoError(),evento);
@@ -55,11 +60,14 @@ public class IncidenciaService {
         if(OAuthError.getError() != null){
             verificaError(OAuthError.getError(),evento);
         }
+        OpenPayError2 openPayError2 = gson.fromJson(evento.getEventDescription(), OpenPayError2.class);
+        if(openPayError2.getCode() != null){
+            verificaError(openPayError2.getCode(),evento);
+        }
     }
 
     private void verificaError(String codigoError, Evento evento){
         List<Errores> listaErrores = mongoService.getListaErrores();
-        System.out.println(codigoError);
         if(listaErrores == null){
             LOGGER.info("Catalogo de errores vacio.");
             return;
