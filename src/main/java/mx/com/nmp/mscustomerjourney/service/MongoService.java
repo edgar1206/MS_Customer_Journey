@@ -35,10 +35,9 @@ public class MongoService {
         listaErrores.add(new Errores("6","InternalErrorException","",new Date(),appName,""));
         listaErrores.add(new Errores("7","UnexpectedLambdaException","",new Date(),appName,""));
         listaErrores.add(new Errores("8","NMP-30001","",new Date(),appName,""));
-        listaErrores.add(new Errores("9","NMP-3014","",new Date(),appName,""));
-        listaErrores.add(new Errores("10","500","",new Date(),appName,""));
-        listaErrores.add(new Errores("11","<html>r<head><title>502 Bad Gateway</title></head>r<body>r<center><h1>502 Bad Gateway</h1></center>r<hr><center>nginx</center>r</body>r</html>r","",new Date(),appName,""));
-        listaErrores.add(new Errores("12","%{[message][message][descripcion]}","",new Date(),appName,""));
+        listaErrores.add(new Errores("9","500","",new Date(),appName,""));
+        listaErrores.add(new Errores("10","<html>r<head><title>502 Bad Gateway</title></head>r<body>r<center><h1>502 Bad Gateway</h1></center>r<hr><center>nginx</center>r</body>r</html>r","",new Date(),appName,""));
+        listaErrores.add(new Errores("11","%{[message][message][descripcion]}","",new Date(),appName,""));
         listaApplication = new ArrayList<>();
         listaApplication.add(new Application("0",appUrl,appName,new Date(),""));
     }

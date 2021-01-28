@@ -4,10 +4,10 @@ applications:
   buildpack: https://github.com/cloudfoundry/java-buildpack.git
   memory: 1G
   timeout: 180
-  path: target/customerjourney-0.0.1-SNAPSHOT.war
+  path: target/customerjourney-0.0.1-SNAPSHOT.jar
   env:
     TZ: America/Mexico_City
-    MS_EVENTOS_URL: http://localhost:9400/event/trace/v1/event
+    MS_EVENTOS_URL: https://dev1775-ms-eventos.apps.tas.nmp.com.mx/event/trace/v1/event
     SERVER_INCLUDE_MESSAGE: always
     MONITOREO_APLICACIONES_CRON_TIME: '*/30 * * * * *'
     CARGA_CATALOGOS_CRON_TIME: '*/10 * * * * *'
