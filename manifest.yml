@@ -4,7 +4,7 @@ applications:
   buildpack: https://github.com/cloudfoundry/java-buildpack.git
   memory: 1G
   timeout: 180
-  path: target/MS-Folios-0.0.1-SNAPSHOT.war
+  path: target/customerjourney-0.0.1-SNAPSHOT.war
   env:
     TZ: America/Mexico_City
     MS_EVENTOS_URL: http://localhost:9400/event/trace/v1/event
