@@ -83,7 +83,6 @@ public class Monitoreo {
             long tiempoMs = new Date().getTime() - error.getUltimaActualizacion().getTime();
             long diferenciaMinutos = tiempoMs / (1000 * 60 );
             if(diferenciaMinutos >= Integer.parseInt(constants.getREFRESH_ALERT()) && !error.getAlertamiento().isEmpty() && estatusFuncional(error.getRecurso())){
-                //notificaServicioFuncional(error);
                 error.setAlertamiento("");
                 error.setRecurso("");
                 error.setUltimaActualizacion(new Date());
@@ -162,7 +161,6 @@ public class Monitoreo {
                     applicationweb.setAlertamiento("");
                     applicationweb.setUltimaActualizacion(new Date());
                     mongoService.saveApplication(applicationweb);
-                    //notificaSitioWebFuncional(applicationweb);
                 }
             });
         }

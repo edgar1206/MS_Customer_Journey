@@ -16,6 +16,10 @@ public class Evento implements Serializable {
     private String eventResource;
     private Date timeGenerated;
     private String eventPhase;
+    private String resolutionTower;
+    private String applicationName;
+    private String configurationElement;
+
 
     public String getIdEvent() {
         return idEvent;
@@ -95,5 +99,29 @@ public class Evento implements Serializable {
 
     public void setEventPhase(String eventPhase) {
         this.eventPhase = eventPhase;
+    }
+
+    public String getResolutionTower() {
+        return resolutionTower;
+    }
+
+    public void setResolutionTower(String tower) {
+        this.resolutionTower = tower;
+    }
+
+    public String getApplicationName() {
+        return applicationName;
+    }
+
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+    }
+
+    public String getConfigurationElement() {
+        return configurationElement;
+    }
+
+    public void setConfigurationElement(String configurationElement) {
+        this.configurationElement = configurationElement;
     }
 }

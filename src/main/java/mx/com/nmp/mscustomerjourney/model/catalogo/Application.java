@@ -1,15 +1,11 @@
 package mx.com.nmp.mscustomerjourney.model.catalogo;
-/*
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-*/
+
 import java.io.Serializable;
 import java.util.Date;
 
-//@Document(collection = "#{@environment.getProperty('indice.aplicaciones.mongo')}")
+
 public class Application implements Serializable {
 
-    //@Id
     private String id;
     private String urlAplicacionWeb;
     private String nombreAplicacion;

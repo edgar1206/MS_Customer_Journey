@@ -27,14 +27,11 @@ public class EventoService {
     @Autowired
     private IncidenciaService incidenciaService;
 
-    @Autowired
-    private RabbitSender rabbitSender;
 
     public void recibeLog(String log, String applicationName){
         try {
             LogsDTO logsDTO = new ObjectMapper().readValue(log, LogsDTO.class);
             Evento evento = estandarizacionLog(logsDTO, applicationName);
-            //rabbitSender.enviaEvento(evento);
             guardaLog(evento);
             procesaLog(evento);
         }catch (JsonParseException e){
@@ -65,7 +62,7 @@ public class EventoService {
     private Evento estandarizacionLog(LogsDTO logsDTO, String applicationName) {
         Evento evento = new Evento();
         evento.setIdEvent(UUID.randomUUID().toString());
-        evento.setEventType(applicationName);
+        evento.setEventType(constants.getEVENT_TYPE());
         evento.setEventLevel(logsDTO.getLevel());
         evento.setEventCategory(logsDTO.getCategoryName());
         evento.setEventAction(logsDTO.getAccion());
@@ -73,6 +70,9 @@ public class EventoService {
         evento.setEventResource(logsDTO.getRecurso());
         evento.setTimeGenerated(logsDTO.getStartTime());
         evento.setEventPhase(logsDTO.getFase());
+        evento.setApplicationName(constants.getAPPLICATION_NAME());
+        evento.setConfigurationElement("Elemento configuracion");
+        evento.setResolutionTower(constants.getRESOLUTION_TOWER());
         return evento;
     }
 

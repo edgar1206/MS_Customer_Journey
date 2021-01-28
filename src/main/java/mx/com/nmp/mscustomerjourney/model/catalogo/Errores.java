@@ -1,14 +1,8 @@
 package mx.com.nmp.mscustomerjourney.model.catalogo;
-/*
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-*/
 import java.util.Date;
 
-//@Document(collection = "#{@environment.getProperty('indice.errores.mongo')}")
 public class Errores {
 
-  //  @Id
     private String id;
     private String codigoError;
     private String alertamiento;

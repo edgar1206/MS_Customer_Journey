@@ -98,6 +98,7 @@ public class IncidenciaService {
             error.setUltimaActualizacion(new Date());
             error.setRecurso(evento.getEventResource());
             evento.setSeverity(error.getAlertamiento());
+            evento.setResolutionTower(constants.getRESOLUTION_TOWER());
             mongoService.saveError(error);
             generaIncidencia(evento);
         }
