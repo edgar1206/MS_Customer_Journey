@@ -1,7 +1,5 @@
 package mx.com.nmp.mscustomerjourney.service;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import mx.com.nmp.mscustomerjourney.model.NR.Evento;
 import mx.com.nmp.mscustomerjourney.model.log.LogsDTO;
 import mx.com.nmp.mscustomerjourney.model.constant.Constants;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -28,18 +25,10 @@ public class EventoService {
     private IncidenciaService incidenciaService;
 
 
-    public void recibeLog(String log){
-        try {
-            LogsDTO logsDTO = new ObjectMapper().readValue(log, LogsDTO.class);
-            Evento evento = estandarizacionLog(logsDTO);
-            guardaLog(evento);
-            procesaLog(evento);
-        }catch (JsonParseException e){
-            LOGGER.info(e.getMessage());
-        }
-        catch (IOException e){
-            LOGGER.info(e.getMessage());
-        }
+    public void recibeLog(LogsDTO log){
+        Evento evento = estandarizacionLog(log);
+        guardaLog(evento);
+        procesaLog(evento);
     }
 
     @Async
