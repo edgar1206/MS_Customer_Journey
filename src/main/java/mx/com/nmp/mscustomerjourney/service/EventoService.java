@@ -28,10 +28,10 @@ public class EventoService {
     private IncidenciaService incidenciaService;
 
 
-    public void recibeLog(String log, String applicationName){
+    public void recibeLog(String log){
         try {
             LogsDTO logsDTO = new ObjectMapper().readValue(log, LogsDTO.class);
-            Evento evento = estandarizacionLog(logsDTO, applicationName);
+            Evento evento = estandarizacionLog(logsDTO);
             guardaLog(evento);
             procesaLog(evento);
         }catch (JsonParseException e){
@@ -59,7 +59,7 @@ public class EventoService {
         incidenciaService.categorizar(evento);
     }
 
-    private Evento estandarizacionLog(LogsDTO logsDTO, String applicationName) {
+    private Evento estandarizacionLog(LogsDTO logsDTO) {
         Evento evento = new Evento();
         evento.setIdEvent(UUID.randomUUID().toString());
         evento.setEventType(constants.getEVENT_TYPE());

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 public class Constants {
 
     private String MS_EVENTOS_URL;
-    private String MS_EVENTOS_INCIDENCIA;
     private String REFRESH_ALERT;
     private String REFRESH_APPLICACION;
     private String TIEMPO_AUMENTA_ALERTAMIENTO;
@@ -19,9 +18,7 @@ public class Constants {
 
     public Constants(
 
-
              @Value("${ms.eventos.url}") String MS_EVENTOS_URL,
-             @Value("${ms.eventos.url.notificacion}") String MS_EVENTOS_URL_ICIDENCIA,
              @Value("${refresh.alert.time.minutos}") String REFRESH_ALERT,
              @Value("${rango.nivel.alertamiento.minutos}") String TIEMPO_AUMENTA_ALERTAMIENTO,
              @Value("${refresh.applicacion.time.minutos}") String REFRESH_APPLICACION,
@@ -34,7 +31,6 @@ public class Constants {
     {
 
         this.MS_EVENTOS_URL = MS_EVENTOS_URL;
-        this.MS_EVENTOS_INCIDENCIA = MS_EVENTOS_URL_ICIDENCIA;
         this.REFRESH_ALERT = REFRESH_ALERT;
         this.REFRESH_APPLICACION = REFRESH_APPLICACION;
         this.TIEMPO_AUMENTA_ALERTAMIENTO= TIEMPO_AUMENTA_ALERTAMIENTO;
@@ -49,10 +45,6 @@ public class Constants {
 
     public String getMS_EVENTOS_URL() {
         return MS_EVENTOS_URL;
-    }
-
-    public String getMS_EVENTOS_INCIDENCIA() {
-        return MS_EVENTOS_INCIDENCIA;
     }
 
     public String getREFRESH_ALERT() {

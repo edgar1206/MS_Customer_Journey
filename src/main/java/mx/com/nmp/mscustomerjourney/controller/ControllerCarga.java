@@ -10,17 +10,16 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/customer/event/v1")
+@RequestMapping("/customerJourney/v1")
 public class ControllerCarga {
 
     @Autowired
     private EventoService eventoService;
 
-    @PostMapping("/log")
-    public Boolean addLog(@RequestBody String log, @RequestHeader HttpHeaders headers){
+    @PostMapping("/event")
+    public Boolean addLog(@RequestBody String event){
         try{
-            String applicationName = Objects.requireNonNull(headers.get("applicationName")).get(0);
-            eventoService.recibeLog(log, applicationName);
+            eventoService.recibeLog(event);
             return true;
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

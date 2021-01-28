@@ -8,9 +8,9 @@ import mx.com.nmp.mscustomerjourney.modelError.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
@@ -27,8 +27,6 @@ public class IncidenciaService {
 
     @Autowired
     private MongoService mongoService;
-
-    private int num = 1;
 
     public void categorizar(Evento evento){
         if(evento.getEventLevel().equalsIgnoreCase("Error") || evento.getEventLevel().equalsIgnoreCase("Fatal")){
@@ -68,6 +66,7 @@ public class IncidenciaService {
 
     private void verificaError(String codigoError, Evento evento){
         List<Errores> listaErrores = mongoService.getListaErrores();
+        LOGGER.info("Verifica Error");
         if(listaErrores == null){
             LOGGER.info("Catalogo de errores vacio.");
             return;
@@ -94,11 +93,13 @@ public class IncidenciaService {
     }
 
     public void guardaAlertamiento(Errores error, Evento evento){
-        if(evento.getEventType().equalsIgnoreCase(error.getNombreAplicacion())){
+        if(evento.getApplicationName().equalsIgnoreCase(error.getNombreAplicacion())){
             error.setUltimaActualizacion(new Date());
             error.setRecurso(evento.getEventResource());
-            evento.setSeverity(error.getAlertamiento());
             evento.setResolutionTower(constants.getRESOLUTION_TOWER());
+            evento.setApplicationName(constants.getAPPLICATION_NAME());
+            evento.setConfigurationElement("Elemento configuracion");
+            LOGGER.info("Incidencia generada");
             mongoService.saveError(error);
             generaIncidencia(evento);
         }
@@ -106,16 +107,19 @@ public class IncidenciaService {
 
     public void generaIncidencia(Evento evento) {
         try{
-            LOGGER.info("Incidencia encontrada");
-           /* RestTemplate restTemplate = new RestTemplate();
+            RestTemplate restTemplate = new RestTemplate();
+            HttpEntity<Evento> requestEvento = new HttpEntity<>(evento);
+            restTemplate.postForEntity(constants.getMS_EVENTOS_URL(),requestEvento,String.class);
+            LOGGER.info("Enviando incidencia...");
             HttpHeaders headers= new HttpHeaders();
             headers.set("Content-Type","application/json");
             headers.set("X-Insert-Key","NRII-GZKVjLai0OwkBWFqNuybOm_d4v7m2oaW");
             headers.set("Content-Encoding","gzip");
             HttpEntity<Evento> request = new HttpEntity<>(evento,headers);
-            ResponseEntity respuestaNewRelic = restTemplate.postForEntity(constants.getNEW_RELIC_URL(),request,String.class);
-            LOGGER.info("Codigo respuesta New Relic " + respuestaNewRelic.getStatusCode());*/
-        }catch (Exception e){
+            ResponseEntity<String> respuestaNewRelic = restTemplate.postForEntity(constants.getNEW_RELIC_URL(),request,String.class);
+            LOGGER.info("Codigo respuesta New Relic " + respuestaNewRelic.getStatusCode());
+        }catch (HttpClientErrorException e){
+            LOGGER.info("No se pudo enviar la incidencia");
             LOGGER.info("Error: " + e.getMessage());
         }
     }

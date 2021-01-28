@@ -1,0 +1,23 @@
+---
+applications:
+- name: dev1775-ms-customer-journey
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git
+  memory: 1G
+  timeout: 180
+  path: target/MS-Folios-0.0.1-SNAPSHOT.war
+  env:
+    TZ: America/Mexico_City
+    MS_EVENTOS_URL: http://localhost:9400/event/trace/v1/event
+    SERVER_INCLUDE_MESSAGE: always
+    MONITOREO_APLICACIONES_CRON_TIME: '*/30 * * * * *'
+    CARGA_CATALOGOS_CRON_TIME: '*/10 * * * * *'
+    RESTABLECE_CATALOGO_ERRORES_CRON_TIME: '*/30 * * * * *'
+    RESTABLECE_CATALOGO_APLICACIONES_CRON_TIME: '*/30 * * * * *'
+    REFRESH_ALERT_TIME_MINUTOS: 300
+    REFRESH_APLICACION_TIME_MINUTOS: 3
+    RANGO_NIVEL_ALERTAMIENTOS_MINUTOS: 40
+    ENDPOINT_NEWRELIC_URL: https://insights-collector.newrelic.com/v1/accounts/2318263/events
+    TORRE_RESOLUCION: Microservicios-L2
+    TIPO_EVENTO: MsCustomerJourney
+    NOMBRE_APLICACION: MiMonte
+    URL_APLICACION: https://dev1775-frontmimontepagos.mybluemix.net/login

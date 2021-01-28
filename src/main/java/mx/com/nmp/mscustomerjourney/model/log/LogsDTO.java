@@ -5,50 +5,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 public class LogsDTO {
-    @JsonProperty("message.idCliente")
-    private String idCliente;
-    @JsonProperty("message.idSesion")
-    private String idSession;
-    private Date startTime;
-    @JsonProperty("message.descripcion")
-    private String descripcion;
-    private String pid;
-    @JsonProperty("message.nombreUsuario")
-    private String nombreUsuario;
-    private GeoIP geoip;
+
     private String categoryName;
-    @JsonProperty("host.hostname")
-    private String hostName;
+    private Date startTime;
     @JsonProperty("message.recurso")
     private String recurso;
-    @JsonProperty("message.host.ip")
-    private String hostIP;
-    @JsonProperty("message.accion")
-    private String accion;
-    @JsonProperty("@version")
-    private String version;
-    @JsonProperty("@timestamp")
-    private Date timeStamp;
-    private String level;
     @JsonProperty("message.fase")
     private String fase;
-    @JsonProperty("message.estatus")
-    private String estatus;
+    @JsonProperty("message.accion")
+    private String accion;
+    @JsonProperty("message.descripcion")
+    private String descripcion;
+    @JsonProperty("@version")
+    private String version;
+    private String level;
+    @JsonProperty("@timestamp")
+    private Date timeStamp;
 
-    public String getIdCliente() {
-        return idCliente;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setIdCliente(String idCliente) {
-        this.idCliente = idCliente;
-    }
-
-    public String getIdSession() {
-        return idSession;
-    }
-
-    public void setIdSession(String idSession) {
-        this.idSession = idSession;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public Date getStartTime() {
@@ -59,100 +38,12 @@ public class LogsDTO {
         this.startTime = startTime;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getPid() {
-        return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
-    }
-
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
-
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public GeoIP getGeoip() {
-        return geoip;
-    }
-
-    public void setGeoip(GeoIP geoip) {
-        this.geoip = geoip;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public String getHostName() {
-        return hostName;
-    }
-
-    public void setHostName(String hostName) {
-        this.hostName = hostName;
-    }
-
     public String getRecurso() {
         return recurso;
     }
 
     public void setRecurso(String recurso) {
         this.recurso = recurso;
-    }
-
-    public String getHostIP() {
-        return hostIP;
-    }
-
-    public void setHostIP(String hostIP) {
-        this.hostIP = hostIP;
-    }
-
-    public String getAccion() {
-        return accion;
-    }
-
-    public void setAccion(String accion) {
-        this.accion = accion;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public Date getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
     }
 
     public String getFase() {
@@ -163,12 +54,44 @@ public class LogsDTO {
         this.fase = fase;
     }
 
-    public String getEstatus() {
-        return estatus;
+    public String getAccion() {
+        return accion;
     }
 
-    public void setEstatus(String estatus) {
-        this.estatus = estatus;
+    public void setAccion(String accion) {
+        this.accion = accion;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public Date getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Date timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
 }

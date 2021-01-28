@@ -132,7 +132,9 @@ public class Monitoreo {
         evento.setEventType(application.getNombreAplicacion());
         evento.setEventAction("");
         evento.setEventCategory("");
-        evento.setEventPhase("");
+        evento.setApplicationName(constants.getAPPLICATION_NAME());
+        evento.setConfigurationElement("Elemento configuracion");
+        evento.setResolutionTower(constants.getRESOLUTION_TOWER());
         incidenciaService.generaIncidencia(evento);
     }
 
@@ -164,20 +166,6 @@ public class Monitoreo {
                 }
             });
         }
-    }
-
-    private void notificaSitioWebFuncional(Application application){
-        System.out.println("La app " + application.getNombreAplicacion() + " restablecida y funcional");
-        /*TODO
-        *  enviar notificacion a service now
-        * */
-    }
-
-    private void notificaServicioFuncional(Errores error){
-        /*TODO
-         *  enviar notificacion a service now
-         * */
-        System.out.println("Se ha restablecido el recurso " + error.getRecurso() + " de la app " + error.getNombreAplicacion());
     }
 
 }
