@@ -10,12 +10,17 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST})
 @RequestMapping("/customerJourney/v1")
 public class ControllerCarga {
 
     @Autowired
     private EventoService eventoService;
+
+    @GetMapping("/message")
+    public String getMessage(){
+        return "Hola desde spring boot ssl";
+    }
 
     @PostMapping("/event")
     public Boolean addLog(@RequestBody LogsDTO event){
@@ -26,6 +31,7 @@ public class ControllerCarga {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+
     @PostMapping("/events")
     public Boolean addLogs(@RequestBody List<LogsDTO> events){
         try{
