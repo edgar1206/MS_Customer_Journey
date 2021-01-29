@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -66,7 +67,6 @@ public class IncidenciaService {
 
     private void verificaError(String codigoError, Evento evento){
         List<Errores> listaErrores = mongoService.getListaErrores();
-        LOGGER.info("Verifica Error");
         if(listaErrores == null){
             LOGGER.info("Catalogo de errores vacio.");
             return;
@@ -96,26 +96,28 @@ public class IncidenciaService {
         if(evento.getApplicationName().equalsIgnoreCase(error.getNombreAplicacion())){
             error.setUltimaActualizacion(new Date());
             error.setRecurso(evento.getEventResource());
+            evento.setSeverity(error.getAlertamiento());
             evento.setResolutionTower(constants.getRESOLUTION_TOWER());
             evento.setApplicationName(constants.getAPPLICATION_NAME());
             evento.setConfigurationElement("Elemento configuracion");
-            LOGGER.info("Incidencia generada");
+            LOGGER.info("Incidencia generada error: " + error.getCodigoError());
             mongoService.saveError(error);
             generaIncidencia(evento);
         }
     }
 
+    @Async
     public void generaIncidencia(Evento evento) {
         try{
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<Evento> requestEvento = new HttpEntity<>(evento);
-            restTemplate.postForEntity(constants.getMS_EVENTOS_URL(),requestEvento,String.class);
             LOGGER.info("Enviando incidencia...");
             HttpHeaders headers= new HttpHeaders();
             headers.set("Content-Type","application/json");
             headers.set("X-Insert-Key","NRII-GZKVjLai0OwkBWFqNuybOm_d4v7m2oaW");
             headers.set("Content-Encoding","gzip");
             HttpEntity<Evento> request = new HttpEntity<>(evento,headers);
+            restTemplate.postForEntity(constants.getMS_EVENTOS_URL(),requestEvento,String.class);
             ResponseEntity<String> respuestaNewRelic = restTemplate.postForEntity(constants.getNEW_RELIC_URL(),request,String.class);
             LOGGER.info("Codigo respuesta New Relic " + respuestaNewRelic.getStatusCode());
         }catch (HttpClientErrorException e){
