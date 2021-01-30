@@ -69,7 +69,6 @@ public class Monitoreo {
     @Scheduled(cron = "${carga.catalogos.cron.time}")
     public void cargaCatalogo(){
         applications = mongoService.cargaAplicaciones();
-        mongoService.cargaCatalogo();
     }
 
     @Scheduled(cron = "${restablece.catalogo.errores.cron.time}")
@@ -86,7 +85,6 @@ public class Monitoreo {
                 error.setAlertamiento("");
                 error.setRecurso("");
                 error.setUltimaActualizacion(new Date());
-                mongoService.saveError(error);
             }
         }
     }
@@ -151,7 +149,6 @@ public class Monitoreo {
             }
             application.setAlertamiento(String.valueOf(num));
         }
-        mongoService.saveApplication(application);
     }
 
     private void verificaFuncionalidadSitioWeb(Application application){
@@ -162,7 +159,6 @@ public class Monitoreo {
                 if (applicationweb.getId().equalsIgnoreCase(application.getId())){
                     applicationweb.setAlertamiento("");
                     applicationweb.setUltimaActualizacion(new Date());
-                    mongoService.saveApplication(applicationweb);
                 }
             });
         }

@@ -12,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.ConnectException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -101,7 +103,6 @@ public class IncidenciaService {
             evento.setApplicationName(constants.getAPPLICATION_NAME());
             evento.setConfigurationElement("Elemento configuracion");
             LOGGER.info("Incidencia generada error: " + error.getCodigoError());
-            mongoService.saveError(error);
             generaIncidencia(evento);
         }
     }
@@ -120,7 +121,7 @@ public class IncidenciaService {
             restTemplate.postForEntity(constants.getMS_EVENTOS_URL(),requestEvento,String.class);
             ResponseEntity<String> respuestaNewRelic = restTemplate.postForEntity(constants.getNEW_RELIC_URL(),request,String.class);
             LOGGER.info("Codigo respuesta New Relic " + respuestaNewRelic.getStatusCode());
-        }catch (HttpClientErrorException e){
+        }catch (HttpClientErrorException | ResourceAccessException e){
             LOGGER.info("No se pudo enviar la incidencia");
             LOGGER.info("Error: " + e.getMessage());
         }

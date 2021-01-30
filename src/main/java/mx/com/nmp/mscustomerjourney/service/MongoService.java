@@ -48,21 +48,6 @@ public class MongoService {
         return listaErrores;
     }
 
-    public void saveError(Errores error){
-        listaErrores.get(Integer.parseInt(error.getId())).setRecurso(error.getRecurso());
-        listaErrores.get(Integer.parseInt(error.getId())).setAlertamiento(error.getAlertamiento());
-        listaErrores.get(Integer.parseInt(error.getId())).setUltimaActualizacion(error.getUltimaActualizacion());
-    }
-
-    public void saveErrores(List<Errores> listaErrores){
-        this.listaErrores.addAll(listaErrores);
-    }
-
-    public void saveApplication(Application application){
-        application.setId(String.valueOf(listaApplication.size()+1));
-        listaApplication.add(application);
-    }
-
     public List<Application> cargaAplicaciones(){
         return listaApplication;
     }
@@ -71,16 +56,5 @@ public class MongoService {
         return listaApplication.get(Integer.parseInt(id));
     }
 
-    public void deleteAplication(String id){
-        listaApplication.remove(Integer.parseInt(id));
-    }
-
-    public void deleteError(String id){
-        listaErrores.remove(Integer.parseInt(id));
-    }
-
-    public Errores getError(String id){
-        return listaErrores.get(Integer.parseInt(id));
-    }
 
 }
