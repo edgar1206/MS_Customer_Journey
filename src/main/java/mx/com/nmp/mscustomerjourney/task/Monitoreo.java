@@ -54,13 +54,11 @@ public class Monitoreo {
             connection.connect();
             int code = connection.getResponseCode();
             if (code != 200) {
-                LOGGER.info("error no responde el sitio web -> " + application.getUrlAplicacionWeb());
                 nivelAlertamientoSitioWeb(application);
             }else{
                 verificaFuncionalidadSitioWeb(application);
             }
         } catch (Exception e) {
-            LOGGER.info("error no responde el sitio web -> " + application.getUrlAplicacionWeb());
             nivelAlertamientoSitioWeb(application);
         }
     }
@@ -119,6 +117,7 @@ public class Monitoreo {
     }
 
     private void generaIncidenciaSitioWeb(Application application){
+        LOGGER.info("error no responde el sitio web -> " + application.getUrlAplicacionWeb());
         Evento evento = new Evento();
         evento.setTimeGenerated(new Date());
         evento.setEventDescription("El sitio web no responde");
