@@ -24,7 +24,7 @@ public class MongoService {
     private List<Application> listaApplication;
 
     @Bean
-    private void inicializaCatalogos(){
+    public void inicializaCatalogos(){
         listaErrores = new ArrayList<>();
         listaErrores.add(new Errores("0","1000","",new Date(),appName,""));
         listaErrores.add(new Errores("1","1004","",new Date(),appName,""));

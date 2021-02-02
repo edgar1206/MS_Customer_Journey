@@ -42,6 +42,7 @@ public class IncidenciaService {
         try{
             MidasError midasError = gson.fromJson(evento.getEventDescription(), MidasError.class);
         }catch (Exception e){
+            LOGGER.info(e.getMessage());
             verificaError(evento.getEventDescription(), evento);
             return;
         }
