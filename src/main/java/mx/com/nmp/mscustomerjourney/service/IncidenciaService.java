@@ -15,7 +15,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.ConnectException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -112,7 +111,7 @@ public class IncidenciaService {
         try{
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<Evento> requestEvento = new HttpEntity<>(evento);
-            LOGGER.info("Enviando incidencia...");
+            LOGGER.info("Enviando incidencia... " + evento.getSeverity());
             HttpHeaders headers= new HttpHeaders();
             headers.set("Content-Type","application/json");
             headers.set("X-Insert-Key","NRII-GZKVjLai0OwkBWFqNuybOm_d4v7m2oaW");
