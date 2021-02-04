@@ -70,7 +70,7 @@ public class Monitoreo {
     }
 
     @Scheduled(cron = "${restablece.catalogo.errores.cron.time}")
-    private void restableceAlertasCatalogoErrores(){
+    public void restableceAlertasCatalogoErrores(){
         List<Errores> erroresLista = new ArrayList<>();
         erroresLista = mongoService.getListaErrores();
         if(erroresLista == null){

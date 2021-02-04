@@ -64,29 +64,6 @@ public class MongoServiceTest {
     }
 
     @Test
-    public void saveError() {
-
-        mongoService.saveError(errores);
-    }
-
-    @Test
-    public void saveErrores() {
-
-        List<Errores> listErrores = new ArrayList<Errores>();
-        mongoService.saveErrores(listaErrores);
-
-    }
-
-    @Test
-    public void saveApplication() {
-
-        Application app = new Application();
-        app.setId("1");
-
-        mongoService.saveApplication(app);
-    }
-
-    @Test
     public void cargaAplicaciones() {
 
 
@@ -96,12 +73,7 @@ public class MongoServiceTest {
     @Test
     public void getApplication() {
 
-        mongoService.getApplication("0");
+        Assert.assertNotNull(mongoService.getApplication("0"));
     }
 
-    @Test
-    public void getError() {
-
-        Assert.assertNotNull(mongoService.getError("1"));
-    }
 }

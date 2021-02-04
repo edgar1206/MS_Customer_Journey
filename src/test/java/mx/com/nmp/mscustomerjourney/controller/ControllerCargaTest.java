@@ -27,7 +27,7 @@ public class ControllerCargaTest {
     @Before
     public void setUp(){
         logsDto = new LogsDTO();
-
+        logsDto.setAccion("Login");
     }
 
     @Test
@@ -36,21 +36,22 @@ public class ControllerCargaTest {
         controllerCarga.addLog(logsDto);
     }
 
-    /*@Test
+   /* @Test
     public void addLogFail() {
-        given(eventoService.recibeLog(logsDto)).will(throw new Exception());
-        controllerCarga.addLog(logsDto);
+        controllerCarga.addLog((LogsDTO) new Object());
     }*/
 
     @Test
     public void addLogs() {
         List<LogsDTO> listLogs = new ArrayList<>();
+        listLogs.add(logsDto);
         controllerCarga.addLogs(listLogs);
     }
 
-    /*@Test
+  /*  @Test
     public void addLogsFail() {
         List<LogsDTO> listLogs = new ArrayList<>();
+        listLogs.add(logsDto);
         controllerCarga.addLogs(listLogs);
     }*/
 }

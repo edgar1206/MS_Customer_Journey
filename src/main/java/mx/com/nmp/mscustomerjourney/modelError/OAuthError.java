@@ -8,8 +8,4 @@ public class OAuthError {
         return error;
     }
 
-    public void setError(String error) {
-        this.error = error;
-    }
-
 }
