@@ -20,7 +20,6 @@ public class Evento implements Serializable {
     private String applicationName;
     private String configurationElement;
 
-
     public String getIdEvent() {
         return idEvent;
     }

@@ -3,7 +3,6 @@ package mx.com.nmp.mscustomerjourney.model.catalogo;
 import java.io.Serializable;
 import java.util.Date;
 
-
 public class Application implements Serializable {
 
     private String id;

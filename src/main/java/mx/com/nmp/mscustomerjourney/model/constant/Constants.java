@@ -42,7 +42,6 @@ public class Constants {
 
     }
 
-
     public String getMS_EVENTOS_URL() {
         return MS_EVENTOS_URL;
     }
