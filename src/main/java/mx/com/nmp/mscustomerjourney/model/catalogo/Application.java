@@ -60,4 +60,5 @@ public class Application implements Serializable {
     public void setAlertamiento(String alertamiento) {
         this.alertamiento = alertamiento;
     }
+    
 }
