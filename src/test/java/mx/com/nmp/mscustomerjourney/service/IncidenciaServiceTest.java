@@ -48,7 +48,6 @@ public class IncidenciaServiceTest {
         Mockito.when(constants.getMS_EVENTOS_URL()).thenReturn("https://dev1775-ms-eventos.apps.tas.nmp.com.mx/event/trace/v1/event");
 
 
-
     }
 
     @Test
