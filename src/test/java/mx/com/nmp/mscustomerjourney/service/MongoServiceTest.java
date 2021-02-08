@@ -51,6 +51,8 @@ public class MongoServiceTest {
         errores.setRecurso("Cognito");
         errores.setUltimaActualizacion(new Date());
         errores.setId("1");
+        errores.setCodigoError("1000");
+        errores.setNombreAplicacion("MiMonte");
 
         listapp.add(new Application());
 

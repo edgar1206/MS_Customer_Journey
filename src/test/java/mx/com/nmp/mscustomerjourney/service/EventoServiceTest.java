@@ -1,5 +1,6 @@
 package mx.com.nmp.mscustomerjourney.service;
 
+import mx.com.nmp.mscustomerjourney.model.NR.Evento;
 import mx.com.nmp.mscustomerjourney.model.constant.Constants;
 import mx.com.nmp.mscustomerjourney.model.log.LogsDTO;
 import mx.com.nmp.mscustomerjourney.service.EventoService;
@@ -10,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
@@ -27,17 +29,21 @@ public class EventoServiceTest {
     @Mock
     private IncidenciaService incidenciaService;
 
-    private LogsDTO logsDto;
+    private Evento evento;
+    private LogsDTO logsDTO;
 
-    @Before
-    public void setUp(){
-        logsDto = new LogsDTO();
-
-    }
 
     @Test
-    public void recibeLog() {
-        when(constants.getMS_EVENTOS_URL()).thenReturn("https://dev1775-ms-eventos.apps.tas.nmp.com.mx/event/trace/v1/event");
-        eventoService.recibeLog(logsDto);
+    public void estandarizacionLog() {
+        logsDTO = new LogsDTO();
+        logsDTO.setTimeStamp(new Date());
+        eventoService.estandarizacionLog(logsDTO);
+    }
+    @Test
+    public void procesaLog(){
+        evento = new Evento();
+        evento.setApplicationName("MiMonte");
+        evento.setEventAction("login");
+        eventoService.procesaLog(evento);
     }
 }

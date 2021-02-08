@@ -46,7 +46,7 @@ public class IncidenciaServiceTest {
         Mockito.when(mongoService.getListaErrores()).thenReturn(listaErrores);
         Mockito.when(constants.getTIEMPO_AUMENTA_ALERTAMIENTO()).thenReturn("40");
         Mockito.when(constants.getMS_EVENTOS_URL()).thenReturn("https://dev1775-ms-eventos.apps.tas.nmp.com.mx/event/trace/v1/event");
-       // Mockito.when(constants.getNEW_RELIC_URL()).thenReturn("https://insights-collector.newrelic.com/v1/accounts/2318263/events");
+
 
 
     }
@@ -87,14 +87,6 @@ public class IncidenciaServiceTest {
 
     @Test
     public void categorizarIncidencia() {
-       /* listaErrores.add(new Errores("3","1017",null,new Date(),appName,""));
-        listaErrores.add(new Errores("4","6002",null,new Date(),appName,""));
-        listaErrores.add(new Errores("5","6003",null,new Date(),appName,""));
-        listaErrores.add(new Errores("6","InternalErrorException",null,new Date(),appName,""));
-        listaErrores.add(new Errores("7","UnexpectedLambdaException",null,new Date(),appName,""));
-        listaErrores.add(new Errores("8","NMP-30001",null,new Date(),appName,""));
-        listaErrores.add(new Errores("9","NMP-3014",null,new Date(),appName,""));
-        listaErrores.add(new Errores("10","500",null,new Date(),appName,""));*/
         listaErrores.add(new Errores("11","<html>r<head><title>502 Bad Gateway</title></head>r<body>r<center><h1>502 Bad Gateway</h1></center>r<hr><center>nginx</center>r</body>r</html>r",null,new Date(),appName,""));
         listaErrores.add(new Errores("12","%{[message][message][descripcion]}",null,new Date(),appName,""));
         Evento incidencia = new Evento();

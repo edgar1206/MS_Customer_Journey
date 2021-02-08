@@ -44,11 +44,11 @@ public class EventoService {
     }
 
     @Async
-    private void procesaLog(Evento evento){
+    public void procesaLog(Evento evento){
         incidenciaService.categorizar(evento);
     }
 
-    private Evento estandarizacionLog(LogsDTO logsDTO) {
+    public Evento estandarizacionLog(LogsDTO logsDTO) {
         Evento evento = new Evento();
         evento.setIdEvent(UUID.randomUUID().toString());
         evento.setEventType(constants.getEVENT_TYPE());
