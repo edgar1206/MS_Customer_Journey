@@ -42,7 +42,6 @@ public class MongoService {
         listaApplication.add(new Application("0",appUrl,appName,new Date(),""));
     }
 
-    public void cargaCatalogo(){ }
 
     public List<Errores> getListaErrores() {
         return listaErrores;
