@@ -3,6 +3,8 @@ package mx.com.nmp.mscustomerjourney.service;
 import mx.com.nmp.mscustomerjourney.model.NR.Evento;
 import mx.com.nmp.mscustomerjourney.model.log.LogsDTO;
 import mx.com.nmp.mscustomerjourney.model.constant.Constants;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.scheduling.annotation.Async;
@@ -24,6 +26,10 @@ public class EventoService {
     @Autowired
     private IncidenciaService incidenciaService;
 
+    @RabbitListener(queues = "Logs-MiMonte")
+    public void recibeMensaje(Message message){
+        System.out.println(new String(message.getBody()));
+    }
 
     public void recibeLog(LogsDTO log){
         Evento evento = estandarizacionLog(log);
