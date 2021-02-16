@@ -1,5 +1,8 @@
 package mx.com.nmp.mscustomerjourney.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import mx.com.nmp.mscustomerjourney.model.NR.Evento;
 import mx.com.nmp.mscustomerjourney.model.log.LogsDTO;
 import mx.com.nmp.mscustomerjourney.model.constant.Constants;
@@ -10,6 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
@@ -27,8 +31,11 @@ public class EventoService {
     private IncidenciaService incidenciaService;
 
     @RabbitListener(queues = "Logs-MiMonte")
-    public void recibeMensaje(Message message){
-        System.out.println(new String(message.getBody()));
+    public void recibeMensaje(Message message) throws InterruptedException, JsonProcessingException {
+        LogsDTO log = getLog(new String(message.getBody()));
+        Evento evento = estandarizacionLog(log);
+        guardaLog(evento);
+        procesaLog(evento);
     }
 
     public void recibeLog(LogsDTO log){
@@ -44,7 +51,7 @@ public class EventoService {
             Thread.sleep(1);
             HttpEntity<Evento> request = new HttpEntity<>(evento);
             restTemplate.postForEntity(constants.getMS_EVENTOS_URL(),request,String.class);
-        }catch (HttpClientErrorException | InterruptedException e){
+        }catch (HttpClientErrorException | InterruptedException | ResourceAccessException e){
             LOGGER.info("Error " + e.getMessage());
         }
     }
@@ -69,6 +76,10 @@ public class EventoService {
         evento.setConfigurationElement("Elemento configuracion");
         evento.setResolutionTower(constants.getRESOLUTION_TOWER());
         return evento;
+    }
+
+    private LogsDTO getLog(String log) throws JsonProcessingException {
+        return new ObjectMapper().readValue(log, LogsDTO.class);
     }
 
 }
