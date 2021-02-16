@@ -30,15 +30,12 @@ public class EventoService {
     @Autowired
     private IncidenciaService incidenciaService;
 
-    @RabbitListener(queues = "Logs-MiMonte")
-    public void recibeMensaje(Message message) throws InterruptedException, JsonProcessingException {
-        LogsDTO log = getLog(new String(message.getBody()));
-        Evento evento = estandarizacionLog(log);
-        guardaLog(evento);
-        procesaLog(evento);
-    }
+    @Autowired
+    private RabbitService rabbitService;
 
-    public void recibeLog(LogsDTO log){
+    @RabbitListener(queues = "${rabbitmq.queue.logs}")
+    public void recibeMensaje(Message message) throws JsonProcessingException {
+        LogsDTO log = getLog(new String(message.getBody()));
         Evento evento = estandarizacionLog(log);
         guardaLog(evento);
         procesaLog(evento);
@@ -46,6 +43,7 @@ public class EventoService {
 
     @Async
     private void guardaLog(Evento evento){
+        //rabbitService.enviaExperiencia(evento);
         try{
             RestTemplate restTemplate = new RestTemplate();
             Thread.sleep(1);

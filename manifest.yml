@@ -21,3 +21,19 @@ applications:
     TIPO_EVENTO: MsCustomerJourney
     NOMBRE_APLICACION: MiMonte
     URL_APLICACION: https://dev1775-frontmimontepagos.mybluemix.net/login
+    RABBIT_HOST: portal-ssl1599-46.bmix-dal-yp-0824d1f6-31f7-4745-92c7-decb7cd8f596.968030925.composedb.com
+    RABBIT_PORT: 22987
+    RABBIT_ADDRESS: portal-ssl1599-46.bmix-dal-yp-0824d1f6-31f7-4745-92c7-decb7cd8f596.968030925.composedb.com:22987
+    RABBIT_USER: admin
+    RABBIT_SCT: EBIXEIJUMNJAUNET
+    RABBIT_VH: bmix-dal-yp-0824d1f6-31f7-4745-92c7-decb7cd8f596
+    RABBIT_DYNAMIC: true
+    RABBIT_SSL: true
+    RABBIT_SSL_ALGORITHM: TLSv1.2
+    HEADER: Exchange-MiMonte
+    QUEUE_LOGS: Logs-MiMonte
+    QUEUE_NOTIFICACIONES: Notificaciones-MiMonte
+    QUEUE_EXPERIENCIAS: Experiencias-MiMonte
+    ROUTING_LOGS: key-MiMonte
+    ROUTING_NOTIFICACIONES: key-notificaciones
+    ROUTING_EXPERIENCIAS: key-experiencias

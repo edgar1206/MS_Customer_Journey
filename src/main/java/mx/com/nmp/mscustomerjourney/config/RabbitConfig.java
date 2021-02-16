@@ -1,69 +1,52 @@
 package mx.com.nmp.mscustomerjourney.config;
 
-
+import mx.com.nmp.mscustomerjourney.model.constant.Constants;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-
 
 @Configuration
 public class RabbitConfig {
 
-    //private static final String EXCHANGE_NAME = "Direc-Depuracion";
-
-    String Depuracion = "Depuracion";
-
-
-    String QUEUE2 = "queue2";
-
-    String QUEUE3 = "queue3";
-
-
-    String FANOUT_EXCHANGE = "Exchange-MiMonte";
-
-
-    //@Bean
-    //HeadersExchange exchange() {
-    //  return new HeadersExchange(EXCHANGE_NAME);
-    //}
+    @Autowired
+    Constants constants;
 
     @Bean
-    public Queue queue1() {
-        return new Queue("Logs-MiMonte");
+    public Queue logs() {
+        return new Queue(constants.getQUEUE_LOGS());
     }
 
     @Bean
-    public Queue queue2() {
-        return new Queue("Notificaciones");
+    public Queue notificaciones() {
+        return new Queue(constants.getQUEUE_NOTIFICACIONES());
     }
 
     @Bean
-    public Queue queue3() {
-        return new Queue("Experiencias");
+    public Queue experiencias() {
+        return new Queue(constants.getQUEUE_EXPERIENCIAS());
     }
 
     @Bean
     public DirectExchange fanoutExchange() {
-        return new DirectExchange(FANOUT_EXCHANGE);
+        return new DirectExchange(constants.getHEADER());
     }
 
     @Bean
-    public Binding binding1() {
-        return BindingBuilder.bind(queue2()).to(fanoutExchange()).with("key-MiMonte");
+    public Binding bindingLogs() {
+        return BindingBuilder.bind(logs()).to(fanoutExchange()).with(constants.getROUTING_LOGS());
     }
 
     @Bean
-    public Binding binding2() {
-        return BindingBuilder.bind(queue3()).to(fanoutExchange()).with("key-notificaciones");
+    public Binding bindingNot() {
+        return BindingBuilder.bind(notificaciones()).to(fanoutExchange()).with(constants.getROUTING_NOTIFICACIONES());
     }
 
     @Bean
-    public Binding binding3() {
-        return BindingBuilder.bind(queue3()).to(fanoutExchange()).with("key-experiencias");
+    public Binding bindingExp() {
+        return BindingBuilder.bind(experiencias()).to(fanoutExchange()).with(constants.getROUTING_EXPERIENCIAS());
     }
-
 
     @Bean
     public RabbitTemplate rabbitTemplate(org.springframework.amqp.rabbit.connection.ConnectionFactory connectionFactory) {

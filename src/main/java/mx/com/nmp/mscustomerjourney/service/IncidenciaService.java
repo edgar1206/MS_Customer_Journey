@@ -25,6 +25,9 @@ public class IncidenciaService {
     private static final Logger LOGGER = Logger.getLogger(IncidenciaService.class.getName());
 
     @Autowired
+    private RabbitService rabbitService;
+
+    @Autowired
     private Constants constants;
 
     @Autowired
@@ -108,21 +111,25 @@ public class IncidenciaService {
 
     @Async
     public void generaIncidencia(Evento evento) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<Evento> requestEvento = new HttpEntity<>(evento);
+        //rabbitService.enviaNotificacion(evento);
         try{
-            RestTemplate restTemplate = new RestTemplate();
-            HttpEntity<Evento> requestEvento = new HttpEntity<>(evento);
             LOGGER.info("Enviando incidencia... " + evento.getSeverity());
             HttpHeaders headers= new HttpHeaders();
             headers.set("Content-Type","application/json");
             headers.set("X-Insert-Key","NRII-GZKVjLai0OwkBWFqNuybOm_d4v7m2oaW");
             headers.set("Content-Encoding","gzip");
             HttpEntity<Evento> request = new HttpEntity<>(evento,headers);
-            restTemplate.postForEntity(constants.getMS_EVENTOS_URL(),requestEvento,String.class);
             ResponseEntity<String> respuestaNewRelic = restTemplate.postForEntity(constants.getNEW_RELIC_URL(),request,String.class);
             LOGGER.info("Codigo respuesta New Relic " + respuestaNewRelic.getStatusCode());
         }catch (HttpClientErrorException | ResourceAccessException e){
-            LOGGER.info("No se pudo enviar la incidencia");
-            LOGGER.info("Error: " + e.getMessage());
+            LOGGER.info("Error al enviar incidencia a new relic " + e.getMessage());
+        }
+        try{
+            restTemplate.postForEntity(constants.getMS_EVENTOS_URL(),requestEvento,String.class);
+        }catch (HttpClientErrorException | ResourceAccessException e){
+            LOGGER.info("Error al guardar incidencia en ms eventos, no responde: " + e.getMessage());
         }
     }
 
