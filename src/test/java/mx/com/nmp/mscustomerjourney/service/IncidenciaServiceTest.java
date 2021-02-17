@@ -77,6 +77,7 @@ public class IncidenciaServiceTest {
     }
     @Test
     public void categorizarOpenPay() {
+        Mockito.when(constants.getNEW_RELIC_URL()).thenReturn("https://insights-collector.newrelic.com/v1/accounts/2318263/events");
         Evento eventoOpenPay = new Evento();
         eventoOpenPay.setEventDescription("{\"description\":\"The api key or merchant id are invalid\",\"error_code\":1000,\"http_code\":401,\"category\":\"request\"}");
         eventoOpenPay.setEventLevel("ERROR");
@@ -86,6 +87,7 @@ public class IncidenciaServiceTest {
 
     @Test
     public void categorizarIncidencia() {
+        Mockito.when(constants.getNEW_RELIC_URL()).thenReturn("https://insights-collector.newrelic.com/v1/accounts/2318263/events");
         listaErrores.add(new Errores("11","<html>r<head><title>502 Bad Gateway</title></head>r<body>r<center><h1>502 Bad Gateway</h1></center>r<hr><center>nginx</center>r</body>r</html>r",null,new Date(),appName,""));
         listaErrores.add(new Errores("12","%{[message][message][descripcion]}",null,new Date(),appName,""));
         Evento incidencia = new Evento();
