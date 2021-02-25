@@ -119,7 +119,6 @@ public class IncidenciaService {
             HttpHeaders headers= new HttpHeaders();
             headers.set("Content-Type","application/json");
             headers.set("X-Insert-Key","NRII-GZKVjLai0OwkBWFqNuybOm_d4v7m2oaW");
-            headers.set("Content-Encoding","gzip");
             HttpEntity<Evento> request = new HttpEntity<>(evento,headers);
             ResponseEntity<String> respuestaNewRelic = restTemplate.postForEntity(constants.getNEW_RELIC_URL(),request,String.class);
             LOGGER.info("Codigo respuesta New Relic " + respuestaNewRelic.getStatusCode());
