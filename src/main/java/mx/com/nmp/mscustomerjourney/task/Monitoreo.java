@@ -129,8 +129,9 @@ public class Monitoreo {
         evento.setEventType(application.getNombreAplicacion());
         evento.setEventAction("");
         evento.setEventCategory("");
+        evento.setEventPhase("");
         evento.setApplicationName(constants.getAPPLICATION_NAME());
-        evento.setConfigurationElement("Elemento configuracion");
+        evento.setConfigurationElement(constants.getCONFIGURATION_ELEMENT());
         evento.setResolutionTower(constants.getRESOLUTION_TOWER());
         incidenciaService.generaIncidencia(evento);
     }

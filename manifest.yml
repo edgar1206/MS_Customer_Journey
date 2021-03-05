@@ -37,3 +37,4 @@ applications:
     ROUTING_LOGS: key-MiMonte
     ROUTING_NOTIFICACIONES: key-notificaciones
     ROUTING_EXPERIENCIAS: key-experiencias
+    CONFIGURATION_ELEMENT: ElementocConfiguracion

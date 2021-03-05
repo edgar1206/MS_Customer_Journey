@@ -71,7 +71,7 @@ public class EventoService {
         evento.setTimeGenerated(logsDTO.getStartTime());
         evento.setEventPhase(logsDTO.getFase());
         evento.setApplicationName(constants.getAPPLICATION_NAME());
-        evento.setConfigurationElement("Elemento configuracion");
+        evento.setConfigurationElement(constants.getCONFIGURATION_ELEMENT());
         evento.setResolutionTower(constants.getRESOLUTION_TOWER());
         return evento;
     }

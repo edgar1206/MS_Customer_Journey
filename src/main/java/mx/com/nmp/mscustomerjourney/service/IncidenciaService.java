@@ -103,7 +103,7 @@ public class IncidenciaService {
             evento.setSeverity(error.getAlertamiento());
             evento.setResolutionTower(constants.getRESOLUTION_TOWER());
             evento.setApplicationName(constants.getAPPLICATION_NAME());
-            evento.setConfigurationElement("Elemento configuracion");
+            evento.setConfigurationElement(constants.getCONFIGURATION_ELEMENT());
             LOGGER.info("Incidencia generada error: " + error.getCodigoError());
             generaIncidencia(evento);
         }

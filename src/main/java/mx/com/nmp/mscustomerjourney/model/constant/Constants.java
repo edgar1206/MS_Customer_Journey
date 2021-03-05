@@ -22,6 +22,7 @@ public class Constants {
     private String ROUTING_LOGS;
     private String ROUTING_NOTIFICACIONES;
     private String ROUTING_EXPERIENCIAS;
+    private String CONFIGURATION_ELEMENT;
 
     public Constants(
 
@@ -40,7 +41,8 @@ public class Constants {
              @Value("${rabbitmq.queue.experiencias}") String QUEUE_EXPERIENCIAS,
              @Value("${rabbitmq.routing.logs}") String ROUTING_LOGS,
              @Value("${rabbitmq.routing.notificaciones}") String ROUTING_NOTIFICACIONES,
-             @Value("${rabbitmq.routing.experiencias}") String ROUTING_EXPERIENCIAS)
+             @Value("${rabbitmq.routing.experiencias}") String ROUTING_EXPERIENCIAS,
+             @Value("${configuration.element}") String CONFIGURATION_ELEMENT)
 
     {
 
@@ -60,6 +62,7 @@ public class Constants {
         this.ROUTING_LOGS = ROUTING_LOGS;
         this.ROUTING_EXPERIENCIAS = ROUTING_EXPERIENCIAS;
         this.ROUTING_NOTIFICACIONES = ROUTING_NOTIFICACIONES;
+        this.CONFIGURATION_ELEMENT = CONFIGURATION_ELEMENT;
 
     }
 
@@ -127,5 +130,8 @@ public class Constants {
         return ROUTING_EXPERIENCIAS;
     }
 
+    public String getCONFIGURATION_ELEMENT() {
+        return CONFIGURATION_ELEMENT;
+    }
 }
 
