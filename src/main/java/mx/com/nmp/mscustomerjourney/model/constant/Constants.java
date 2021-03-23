@@ -23,6 +23,12 @@ public class Constants {
     private String ROUTING_NOTIFICACIONES;
     private String ROUTING_EXPERIENCIAS;
     private String CONFIGURATION_ELEMENT;
+    private String RABBIT_HOST;
+    private String RABBIT_PORT;
+    private String RABBIT_USERNAME;
+    private String RABBIT_SCT;
+    private String RABBIT_VIRTUAL_HOST;
+    private String RABBIT_SSL_ALGORITHM;
 
     public Constants(
 
@@ -42,7 +48,13 @@ public class Constants {
              @Value("${rabbitmq.routing.logs}") String ROUTING_LOGS,
              @Value("${rabbitmq.routing.notificaciones}") String ROUTING_NOTIFICACIONES,
              @Value("${rabbitmq.routing.experiencias}") String ROUTING_EXPERIENCIAS,
-             @Value("${configuration.element}") String CONFIGURATION_ELEMENT)
+             @Value("${configuration.element}") String CONFIGURATION_ELEMENT,
+             @Value("${spring.rabbitmq.host}") String RABBIT_HOST,
+             @Value("${spring.rabbitmq.port}") String RABBIT_PORT,
+             @Value("${spring.rabbitmq.username}") String RABBIT_USERNAME,
+             @Value("${spring.rabbitmq.sct}") String RABBIT_SCT,
+             @Value("${spring.rabbitmq.virtual-host}") String RABBIT_VIRTUAL_HOST,
+             @Value("${spring.rabbitmq.ssl.algorithm}") String RABBIT_SSL_ALGORITHM)
 
     {
 
@@ -63,6 +75,12 @@ public class Constants {
         this.ROUTING_EXPERIENCIAS = ROUTING_EXPERIENCIAS;
         this.ROUTING_NOTIFICACIONES = ROUTING_NOTIFICACIONES;
         this.CONFIGURATION_ELEMENT = CONFIGURATION_ELEMENT;
+        this.RABBIT_HOST = RABBIT_HOST;
+        this.RABBIT_PORT = RABBIT_PORT;
+        this.RABBIT_VIRTUAL_HOST = RABBIT_VIRTUAL_HOST;
+        this.RABBIT_USERNAME = RABBIT_USERNAME;
+        this.RABBIT_SCT = RABBIT_SCT;
+        this.RABBIT_SSL_ALGORITHM = RABBIT_SSL_ALGORITHM;
 
     }
 
@@ -133,5 +151,30 @@ public class Constants {
     public String getCONFIGURATION_ELEMENT() {
         return CONFIGURATION_ELEMENT;
     }
+
+    public String getRABBIT_HOST() {
+        return RABBIT_HOST;
+    }
+
+    public String getRABBIT_PORT() {
+        return RABBIT_PORT;
+    }
+
+    public String getRABBIT_USERNAME() {
+        return RABBIT_USERNAME;
+    }
+
+    public String getRABBIT_SCT() {
+        return RABBIT_SCT;
+    }
+
+    public String getRABBIT_VIRTUAL_HOST() {
+        return RABBIT_VIRTUAL_HOST;
+    }
+
+    public String getRABBIT_SSL_ALGORITHM() {
+        return RABBIT_SSL_ALGORITHM;
+    }
+
 }
 

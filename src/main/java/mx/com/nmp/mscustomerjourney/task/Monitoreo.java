@@ -66,7 +66,7 @@ public class Monitoreo {
     @Async
     @Scheduled(cron = "${carga.catalogos.cron.time}")
     public void cargaCatalogo(){
-        applications = mongoService.cargaAplicaciones();
+        applications = this.mongoService.cargaAplicaciones();
     }
 
     @Scheduled(cron = "${restablece.catalogo.errores.cron.time}")
@@ -125,10 +125,10 @@ public class Monitoreo {
         evento.setIdEvent(UUID.randomUUID().toString());
         evento.setEventResource(application.getUrlAplicacionWeb());
         evento.setTimeGenerated(application.getUltimaActualizacion());
-        evento.setSeverity("CRITICAL");
+        evento.setSeverity("Critical");
         evento.setEventType(application.getNombreAplicacion());
         evento.setEventAction("");
-        evento.setEventCategory("");
+        evento.setEventCategory("WebApp");
         evento.setEventPhase("");
         evento.setApplicationName(constants.getAPPLICATION_NAME());
         evento.setConfigurationElement(constants.getCONFIGURATION_ELEMENT());

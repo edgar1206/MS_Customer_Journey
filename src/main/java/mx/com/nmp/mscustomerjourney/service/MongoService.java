@@ -42,7 +42,6 @@ public class MongoService {
         listaApplication.add(new Application("0",appUrl,appName,new Date(),""));
     }
 
-
     public List<Errores> getListaErrores() {
         return listaErrores;
     }
@@ -54,6 +53,5 @@ public class MongoService {
     public Application getApplication(String id){
         return listaApplication.get(Integer.parseInt(id));
     }
-
 
 }

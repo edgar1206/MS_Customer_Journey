@@ -78,7 +78,7 @@ public class IncidenciaService {
         for (Errores error:listaErrores){
             long tiempoMs = new Date().getTime() - error.getUltimaActualizacion().getTime();
             long diferenciaMinutos = tiempoMs / (1000 * 60);
-            if(error.getCodigoError().equalsIgnoreCase(codigoError)){
+            if(error.getCodigoError().equalsIgnoreCase(codigoError) && error.getNombreAplicacion().equalsIgnoreCase(evento.getApplicationName())){
                 if(error.getAlertamiento()==null || error.getAlertamiento().isEmpty()){
                     error.setAlertamiento("Low");
                     guardaAlertamiento(error, evento);
