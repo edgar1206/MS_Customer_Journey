@@ -38,6 +38,15 @@ public class MongoService {
         listaErrores.add(new Errores("9","500","",new Date(),appName,""));
         listaErrores.add(new Errores("10","<html>r<head><title>502 Bad Gateway</title></head>r<body>r<center><h1>502 Bad Gateway</h1></center>r<hr><center>nginx</center>r</body>r</html>r","",new Date(),appName,""));
         listaErrores.add(new Errores("11","%{[message][message][descripcion]}","",new Date(),appName,""));
+        listaErrores.add(new Errores("12","NMP-0000","",new Date(),appName,""));
+        listaErrores.add(new Errores("13","NMP-1000","",new Date(),appName,""));
+        listaErrores.add(new Errores("14","NMP-1001","",new Date(),appName,""));
+        listaErrores.add(new Errores("15","NMP-1002","",new Date(),appName,""));
+        listaErrores.add(new Errores("16","NMP-1003","",new Date(),appName,""));
+        listaErrores.add(new Errores("17","NMP-2000","",new Date(),appName,""));
+        listaErrores.add(new Errores("18","NMP-2001","",new Date(),appName,""));
+        listaErrores.add(new Errores("19","NMP-2002","",new Date(),appName,""));
+
         listaApplication = new ArrayList<>();
         listaApplication.add(new Application("0",appUrl,appName,new Date(),""));
     }
