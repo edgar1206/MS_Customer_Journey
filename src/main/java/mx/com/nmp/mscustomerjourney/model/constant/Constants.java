@@ -29,6 +29,7 @@ public class Constants {
     private String RABBIT_SCT;
     private String RABBIT_VIRTUAL_HOST;
     private String RABBIT_SSL_ALGORITHM;
+    private String SSL_ENABLED;
 
     public Constants(
 
@@ -54,7 +55,8 @@ public class Constants {
              @Value("${spring.rabbitmq.username}") String RABBIT_USERNAME,
              @Value("${spring.rabbitmq.sct}") String RABBIT_SCT,
              @Value("${spring.rabbitmq.virtual-host}") String RABBIT_VIRTUAL_HOST,
-             @Value("${spring.rabbitmq.ssl.algorithm}") String RABBIT_SSL_ALGORITHM)
+             @Value("${spring.rabbitmq.ssl.algorithm}") String RABBIT_SSL_ALGORITHM,
+             @Value("${spring.rabbitmq.ssl.enabled}") String SSL_ENABLED)
 
     {
 
@@ -81,6 +83,7 @@ public class Constants {
         this.RABBIT_USERNAME = RABBIT_USERNAME;
         this.RABBIT_SCT = RABBIT_SCT;
         this.RABBIT_SSL_ALGORITHM = RABBIT_SSL_ALGORITHM;
+        this.SSL_ENABLED = SSL_ENABLED;
 
     }
 
@@ -174,6 +177,10 @@ public class Constants {
 
     public String getRABBIT_SSL_ALGORITHM() {
         return RABBIT_SSL_ALGORITHM;
+    }
+
+    public String getSSL_ENABLED() {
+        return SSL_ENABLED;
     }
 
 }

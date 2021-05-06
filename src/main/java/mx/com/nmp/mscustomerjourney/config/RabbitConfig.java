@@ -21,20 +21,23 @@ public class RabbitConfig {
     @Bean
     public ConnectionFactory connectionFactory() {
         com.rabbitmq.client.ConnectionFactory rabbitmqConnectionfactory = new com.rabbitmq.client.ConnectionFactory();
-        SSLContext sslContext;
-        try {
-            sslContext = SSLContext.getInstance(constants.getRABBIT_SSL_ALGORITHM());
-            sslContext.init(null,null,null);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+        SSLSocketFactory sslSocketFactory;
+        if(constants.getSSL_ENABLED().equalsIgnoreCase("true")){
+            SSLContext sslContext;
+            try {
+                sslContext = SSLContext.getInstance(constants.getRABBIT_SSL_ALGORITHM());
+                sslContext.init(null,null,null);
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+            sslSocketFactory = (SSLSocketFactory)sslContext.getSocketFactory();
+            rabbitmqConnectionfactory.setSocketFactory(sslSocketFactory);
         }
-        SSLSocketFactory sslSocketFactory = (SSLSocketFactory)sslContext.getSocketFactory();
         rabbitmqConnectionfactory.setHost(constants.getRABBIT_HOST());
         rabbitmqConnectionfactory.setPort(Integer.parseInt(constants.getRABBIT_PORT()));
         rabbitmqConnectionfactory.setVirtualHost(constants.getRABBIT_VIRTUAL_HOST());
         rabbitmqConnectionfactory.setUsername(constants.getRABBIT_USERNAME());
         rabbitmqConnectionfactory.setPassword(constants.getRABBIT_SCT());
-        rabbitmqConnectionfactory.setSocketFactory(sslSocketFactory);
         rabbitmqConnectionfactory.setAutomaticRecoveryEnabled(false);
         return new CachingConnectionFactory(rabbitmqConnectionfactory);
     }
