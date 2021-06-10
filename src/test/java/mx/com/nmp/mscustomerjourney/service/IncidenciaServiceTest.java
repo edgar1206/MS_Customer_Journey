@@ -36,7 +36,6 @@ public class IncidenciaServiceTest {
 
     @Before
     public void setUp() {
-
         listaErrores = new ArrayList<>();
         listaErrores.add(new Errores("0","1000","LOW",new Date (1 * 1000 -  24 * 60 * 60 * 1000),appName,""));
         listaErrores.add(new Errores("1","1004","Moderate",new Date(1 * 1000 -  24 * 60 * 60 * 1000),appName,""));
@@ -60,6 +59,7 @@ public class IncidenciaServiceTest {
 
 
     }
+
     @Test
     public void categorizarCognito() {
 
@@ -68,6 +68,7 @@ public class IncidenciaServiceTest {
         eventoCognito.setEventLevel("ERROR");
         incidenciaService.categorizar(eventoCognito);
     }
+
     @Test
     public void categorizarOAuth() {
         Evento eventoOAuthError = new Evento();
@@ -75,6 +76,7 @@ public class IncidenciaServiceTest {
         eventoOAuthError.setEventLevel("ERROR");
         incidenciaService.categorizar(eventoOAuthError);
     }
+
     @Test
     public void categorizarOpenPay() {
         Mockito.when(constants.getNEW_RELIC_URL()).thenReturn("https://insights-collector.newrelic.com/v1/accounts/2318263/events");
@@ -96,7 +98,5 @@ public class IncidenciaServiceTest {
         incidencia.setApplicationName("MiMonte");
         incidenciaService.categorizar(incidencia);
     }
-
-
 
 }
