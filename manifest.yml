@@ -1,6 +1,6 @@
 ---
 applications:
-  - name: {APPNAME}
+  - name: ${APPNAME}
     buildpack: https://github.com/cloudfoundry/java-buildpack.git
     memory: 1G
     timeout: 180
